@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nor-Fishing 2026 · Utstillere &amp; kart</title>
+<style>
+:root{
+  --aqua:#0096a0; --aqua-dark:#007e87; --aqua-light:#99dde1;
+  --deep-blue:#324664; --coral:#fa6e5a; --scale-grey:#d2d2cd;
+  --pitch-black:#000; --white:#fff; --tint:#f0fafa;
+  --font-heading:'Gerbera','Arial',sans-serif;
+  --font-body:'Tiempos','Georgia','Times New Roman',serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font-body);color:var(--pitch-black);background:#f7f8f7;font-size:16px;line-height:1.6;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{font-family:var(--font-heading);color:var(--aqua);font-weight:700;margin:0}
+button,input,select,textarea{font-family:var(--font-heading);font-size:.95rem}
+a{color:var(--aqua)}
+
+header{background:var(--aqua);color:var(--white);padding:14px 18px}
+.hwrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{font-family:var(--font-heading);font-weight:700;letter-spacing:.22em;font-size:1.25rem}
+.hmeta{font-family:var(--font-heading);font-size:.78rem;opacity:.9;letter-spacing:.04em;text-transform:uppercase}
+
+nav.tabs{background:var(--white);border-bottom:2px solid var(--scale-grey);position:sticky;top:0;z-index:30}
+.tabsw{max-width:1200px;margin:0 auto;display:flex;overflow-x:auto}
+.tab{font-family:var(--font-heading);background:none;border:none;border-bottom:3px solid transparent;padding:12px 15px;color:var(--deep-blue);cursor:pointer;white-space:nowrap;font-weight:600}
+.tab.on{color:var(--aqua);border-bottom-color:var(--aqua)}
+.tab .pill{background:var(--scale-grey);color:var(--deep-blue);border-radius:10px;padding:0 7px;font-size:.75rem;margin-left:5px}
+.tab.on .pill{background:var(--aqua);color:var(--white)}
+
+main{max-width:1200px;margin:0 auto;padding:18px}
+.hide{display:none!important}
+section{animation:fadeUp .35s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.controls{display:grid;gap:10px;margin-bottom:14px}
+.search input{width:100%;padding:12px 14px;border:2px solid var(--scale-grey);border-radius:4px;background:var(--white)}
+.search input:focus{outline:none;border-color:var(--aqua)}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+select{padding:9px 10px;border:2px solid var(--scale-grey);border-radius:4px;background:var(--white);color:var(--deep-blue)}
+.chip{font-family:var(--font-heading);font-size:.85rem;padding:9px 14px;border-radius:20px;border:2px solid var(--aqua);background:transparent;color:var(--aqua);cursor:pointer;font-weight:600;transition:background .2s,color .2s}
+.chip.on{background:var(--aqua);color:var(--white)}
+.count{font-family:var(--font-heading);font-size:.85rem;color:var(--deep-blue)}
+
+.list{display:grid;gap:10px}
+.card{background:var(--white);border-top:4px solid var(--aqua);border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:14px}
+.card.fav{border-top-color:var(--coral)}
+.crow{display:flex;gap:12px;align-items:flex-start}
+.cmain{flex:1;min-width:0}
+.cname{font-family:var(--font-heading);font-weight:700;font-size:1.02rem;color:var(--deep-blue);line-height:1.3}
+.cmeta{font-family:var(--font-heading);font-size:.8rem;color:#5d6b80;margin-top:3px;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.stand{background:var(--tint);color:var(--aqua-dark);border-radius:3px;padding:1px 7px;font-weight:700}
+.flag{font-family:var(--font-heading);font-size:.78rem}
+.web{font-family:var(--font-heading);font-size:.78rem;text-decoration:none;border-bottom:1px solid var(--aqua-light)}
+.star{background:none;border:none;font-size:1.5rem;line-height:1;cursor:pointer;color:var(--scale-grey);padding:0 2px;transition:transform .18s,color .18s}
+.star.on{color:var(--coral)}
+.star:active{transform:scale(1.35)}
+.cactions{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.mini{font-family:var(--font-heading);font-size:.8rem;background:transparent;border:1px solid var(--scale-grey);color:var(--deep-blue);border-radius:4px;padding:6px 10px;cursor:pointer;font-weight:600;transition:.18s;text-decoration:none;display:inline-block}
+.mini:hover{border-color:var(--aqua);color:var(--aqua)}
+.mini.acc{border-color:var(--aqua);color:var(--aqua)}
+.badge{font-family:var(--font-heading);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--aqua-dark);background:var(--tint);padding:3px 8px;border-radius:3px}
+.preview{font-family:var(--font-body);font-size:.9rem;color:#333;background:var(--tint);border-left:3px solid var(--aqua);padding:8px 12px;margin-top:10px;border-radius:0 3px 3px 0}
+
+.form{margin-top:12px;padding-top:12px;border-top:1px solid var(--scale-grey);display:grid;gap:10px;animation:fadeUp .25s ease both}
+.fgrid{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:620px){.fgrid{grid-template-columns:1fr 1fr}}
+label{font-family:var(--font-heading);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--deep-blue);display:block;margin-bottom:3px}
+.form input,.form textarea{width:100%;padding:9px 11px;border:2px solid var(--scale-grey);border-radius:4px;background:var(--white);font-family:var(--font-body);font-size:.95rem}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--aqua)}
+.form textarea{min-height:90px;resize:vertical}
+.saved{font-family:var(--font-heading);font-size:.78rem;color:var(--aqua);opacity:0;transition:opacity .2s}
+.saved.on{opacity:1}
+
+.btn{background:var(--aqua);color:var(--white);font-family:var(--font-heading);border:none;padding:11px 18px;border-radius:4px;cursor:pointer;font-weight:600;transition:background .2s}
+.btn:hover{background:var(--aqua-dark)}
+.btn2{background:transparent;color:var(--aqua);border:2px solid var(--aqua);padding:9px 16px;border-radius:4px;cursor:pointer;font-family:var(--font-heading);font-weight:600}
+.btn-ghost{background:transparent;border:1px solid var(--scale-grey);color:#7a8699;padding:9px 14px;border-radius:4px;cursor:pointer;font-family:var(--font-heading);font-size:.85rem}
+
+.panel{background:var(--white);border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:18px;margin-bottom:14px}
+.panel h2{font-size:1.1rem;margin-bottom:8px}
+.callout{border-left:4px solid var(--aqua);background:var(--tint);padding:12px 16px;color:var(--deep-blue);font-size:.9rem;border-radius:0 3px 3px 0}
+.callout ol,.callout ul{margin:8px 0 0;padding-left:20px}
+textarea.paste{width:100%;min-height:130px;padding:11px;border:2px solid var(--scale-grey);border-radius:4px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82rem;resize:vertical}
+.empty{text-align:center;padding:40px 20px;color:#7a8699;font-family:var(--font-heading)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.stat{background:var(--white);border-radius:4px;padding:11px 6px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.statn{font-family:var(--font-heading);font-size:1.5rem;font-weight:700;color:var(--aqua);line-height:1.1}
+.statl{font-family:var(--font-heading);font-size:.63rem;text-transform:uppercase;letter-spacing:.05em;color:var(--deep-blue)}
+footer{background:var(--deep-blue);color:var(--white);font-family:var(--font-heading);padding:20px;font-size:.8rem;margin-top:30px}
+footer .fw{max-width:1200px;margin:0 auto}
+footer a{color:var(--aqua-light)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:var(--deep-blue);color:var(--white);font-family:var(--font-heading);font-size:.85rem;padding:11px 20px;border-radius:4px;z-index:100;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.on{opacity:1}
+
+.mapstage{position:relative;background:var(--white);border-radius:6px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:14px;overflow:hidden}
+.crumb{font-family:var(--font-heading);font-size:.85rem;color:var(--deep-blue);display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.crumb button{background:none;border:none;color:var(--aqua);font-weight:700;cursor:pointer;padding:0}
+.stagepane{transition:opacity .3s ease,transform .35s cubic-bezier(.3,.8,.3,1)}
+.stagepane.out{opacity:0;transform:scale(.94)}
+.stagepane.out-back{opacity:0;transform:scale(1.06)}
+svg.venue{width:100%;height:auto;display:block}
+.hallblock{cursor:pointer}
+.hallblock rect{fill:var(--tint);stroke:var(--aqua);stroke-width:2;transition:fill .25s}
+.hallblock:hover rect,.hallblock:focus rect{fill:var(--aqua-light)}
+.hallblock .hl{font-family:var(--font-heading);font-weight:700;fill:var(--aqua-dark);font-size:18px}
+.hallblock .hn{font-family:var(--font-heading);fill:var(--deep-blue);font-size:8px;letter-spacing:.04em}
+.hallblock .hc{font-family:var(--font-heading);fill:#6b788c;font-size:7.5px}
+.hallblock .favdot{fill:var(--coral)}
+.hallblock .favtxt{font-family:var(--font-heading);fill:var(--white);font-size:7px;font-weight:700}
+.venue .outline{fill:none;stroke:var(--scale-grey);stroke-width:1.5;stroke-dasharray:5 4}
+.venue .caption{font-family:var(--font-heading);fill:#8c96a6;font-size:7px;letter-spacing:.08em}
+
+.hallhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.hallhead h2{font-size:1.35rem}
+.hallhead .sub{font-family:var(--font-heading);font-size:.8rem;color:#6b788c}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-family:var(--font-heading);font-size:.72rem;color:var(--deep-blue);margin:10px 0}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.floor{border:2px solid var(--aqua);border-radius:6px;padding:14px 12px 16px;background:linear-gradient(180deg,#fbfdfd,#f2f7f7);position:relative}
+.floor::before{content:'INNGANG';position:absolute;left:50%;transform:translateX(-50%);bottom:-11px;background:var(--aqua);color:#fff;font-family:var(--font-heading);font-size:.6rem;letter-spacing:.14em;padding:2px 10px;border-radius:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:7px}
+.sq{position:relative;font-family:var(--font-heading);font-size:.76rem;font-weight:700;border:1.5px solid var(--scale-grey);background:var(--white);color:#9aa3b0;border-radius:3px;padding:10px 4px;cursor:pointer;text-align:center;transition:transform .18s,box-shadow .18s;animation:pop .3s ease both;overflow:hidden}
+@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+.sq.taken{background:var(--aqua);border-color:var(--aqua-dark);color:#fff}
+.sq.fav{background:var(--coral);border-color:#e05a46;color:#fff}
+.sq.extra{border-style:dashed}
+.sq:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 4px 12px rgba(0,0,0,.16);z-index:2}
+.sq.sel{outline:3px solid var(--deep-blue);outline-offset:2px}
+.sq .nm{display:block;font-size:.55rem;font-weight:600;opacity:.93;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sq .cnt{position:absolute;top:2px;right:3px;font-size:.55rem;opacity:.85}
+.sq.pulse{animation:pulse 1.1s ease-out 3}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(250,110,90,.85)}70%{box-shadow:0 0 0 18px rgba(250,110,90,0)}100%{box-shadow:0 0 0 0 rgba(250,110,90,0)}}
+.standinfo{margin-top:14px;border-top:2px solid var(--scale-grey);padding-top:14px;animation:fadeUp .3s ease both}
+.mapsearch{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.mapsearch input{flex:1;min-width:180px;padding:11px 13px;border:2px solid var(--scale-grey);border-radius:4px}
+.mapsearch input:focus{outline:none;border-color:var(--aqua)}
+.note-scale{font-family:var(--font-heading);font-size:.72rem;color:#8c96a6;margin-top:12px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <span class="logo">CERMAQ</span>
+    <div>
+      <div style="font-family:var(--font-heading);font-weight:700;font-size:1rem">Nor-Fishing 2026</div>
+      <div class="hmeta">Utstillere &amp; messekart · Trondheim Spektrum · 18–20 aug</div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs"><div class="tabsw">
+  <button class="tab on" data-view="all">Alle <span class="pill" id="cAll">0</span></button>
+  <button class="tab" data-view="fav">Favoritter <span class="pill" id="cFav">0</span></button>
+  <button class="tab" data-view="notes">Med notat <span class="pill" id="cNotes">0</span></button>
+  <button class="tab" data-view="map">Kart</button>
+  <button class="tab" data-view="data">Data</button>
+</div></nav>
+
+<main>
+  <section id="viewList">
+    <div class="stats">
+      <div class="stat"><div class="statn" id="sTot">0</div><div class="statl">Utstillere</div></div>
+      <div class="stat"><div class="statn" id="sCountries">0</div><div class="statl">Land</div></div>
+      <div class="stat"><div class="statn" id="sFav">0</div><div class="statl">Favoritter</div></div>
+      <div class="stat"><div class="statn" id="sNot">0</div><div class="statl">Notater</div></div>
+    </div>
+    <div class="controls">
+      <div class="search"><input id="q" type="search" placeholder="Søk på navn, land, stand, nettside, notat…"></div>
+      <div class="filters">
+        <select id="fCountry"><option value="">Alle land</option></select>
+        <select id="fHall"><option value="">Alle haller</option></select>
+        <select id="fSort">
+          <option value="name">Sorter: navn</option>
+          <option value="stand">Sorter: stand</option>
+          <option value="country">Sorter: land</option>
+        </select>
+        <button class="chip" id="fFav">★ Kun favoritter</button>
+        <button class="chip" id="fNor">Kun utenlandske</button>
+        <button class="btn-ghost" id="fReset">Nullstill</button>
+      </div>
+      <div class="count" id="resCount"></div>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <section id="viewMap" class="hide">
+    <div class="mapsearch">
+      <input id="mq" type="search" placeholder="Gå til standnummer, f.eks. D-320">
+      <button class="btn" id="mgo">Finn stand</button>
+    </div>
+    <div class="mapstage">
+      <div class="crumb" id="crumb"></div>
+      <div class="stagepane" id="pane"></div>
+    </div>
+    <p class="note-scale">Skjematisk standoversikt: standnumre fra Nor-Fishings hallplaner (juni 2026), supplert med numre som bare finnes i utstillerlisten (stiplet ramme). Plasseringen i rutenettet er ikke i målestokk — bruk den offisielle hall-PDF-en for eksakt posisjon.</p>
+  </section>
+
+  <section id="viewData" class="hide">
+    <div class="panel">
+      <h2>Datagrunnlag</h2>
+      <div class="callout">
+        Utstillerlisten er innebygd i appen: <b id="seedCount">0</b> firma med land, standnummer og nettside, hentet fra utstillerlisten på nor-fishing.no 14. august 2026.
+        <ul>
+          <li>Firma med flere stands er slått sammen til én rad.</li>
+          <li>«Skansen at sea» og «Brattørabassenget» er sjøareal uten standnummer.</li>
+        </ul>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn2" id="reseed">Oppdater fra innebygd liste</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Importer nyere liste</h2>
+      <p style="font-size:.88rem;color:#5d6b80;margin-top:0">Kolonner: <b>navn ; land ; stand ; nettside</b>. Nettside er valgfri. Tabulator, semikolon eller komma. Notater og favoritter beholdes.</p>
+      <textarea class="paste" id="paste" placeholder="Cermaq Norway AS;Norway;D-320;https://www.cermaq.com/"></textarea>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center">
+        <button class="btn" id="doImport">Importer</button>
+        <label class="btn2" style="cursor:pointer;display:inline-block">Last opp CSV<input type="file" id="csv" accept=".csv,.tsv,.txt" class="hide"></label>
+        <span class="count" id="importMsg"></span>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Lagring</h2>
+      <p id="storeStatus" style="font-family:var(--font-heading);font-size:.88rem;margin:0 0 10px"></p>
+      <div class="callout">
+        Notater, kontakter og favoritter lagres i nettleseren på denne telefonen. For at det skal overleve:
+        <ul>
+          <li>Åpne appen fra <b>samme snarvei hver gang</b> — ny nedlasting av filen gir ny adresse og tom lagring.</li>
+          <li>Ikke bruk <b>InPrivate</b>-fane, og ikke slett nettleserdata/cookies for siden.</li>
+          <li>Ta <b>sikkerhetskopi</b> ved dagens slutt — filen kan leses inn igjen her.</li>
+        </ul>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn" id="expJson">Lagre sikkerhetskopi</button>
+        <label class="btn2" style="cursor:pointer;display:inline-block">Gjenopprett fra fil<input type="file" id="restore" accept=".json" class="hide"></label>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Eksport til Excel</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" id="expFav">Favoritter (CSV)</button>
+        <button class="btn2" id="expAll">Alt (CSV)</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Offisielle hallplaner</h2>
+      <div id="pdflinks" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    </div>
+    <div class="panel">
+      <h2>Rydde opp</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-ghost" id="clrAll">Slett alle notater og favoritter</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="fw">
+  Internt arbeidsverktøy · Notater og favoritter lagres lokalt for deg.
+  Kilder: <a href="https://nor-fishing.no/utstillerlisten-2026/" target="_blank" rel="noopener">utstillerlisten</a> og
+  <a href="https://nor-fishing.no/messen/messeomradet/" target="_blank" rel="noopener">messeområdet</a>, nor-fishing.no
+</div></footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== INNEBYGD UTSTILLERLISTE (nor-fishing.no, 14.08.2026) ===== */
+const SEED=[{"id":"70blå","n":"70Blå","c":"Norway","s":"A-118","u":"https://www.70blaa.no/"},{"id":"aalesund-protective-wear","n":"Aalesund Protective Wear","c":"Norway","s":"A-110","u":"https://aapw.no/no/"},{"id":"aas-mek-verksted","n":"Aas Mek. Verksted","c":"Norway","s":"D-343","u":"http://www.aasmek.no/"},{"id":"ab-volvo-penta","n":"AB Volvo Penta","c":"Sweden","s":"B-211","u":"https://www.volvopenta.com/marine/"},{"id":"abb-as","n":"ABB AS","c":"Norway","s":"A-145","u":"https://campaign-mo.abb.com/l/961052/2026-07-17/7kdmt"},{"id":"abyss-as","n":"Abyss AS","c":"Norway","s":"Brattørabassenget","u":""},{"id":"accelleron","n":"Accelleron","c":"Norway","s":"B-204","u":"https://accelleron.com/"},{"id":"acrylicon-norge-as","n":"Acrylicon Norge AS","c":"Norway","s":"A-109","u":"http://www.acrylicon.no/"},{"id":"acte-as","n":"ACTE AS","c":"Norway","s":"F-555","u":"https://www.acte.no/"},{"id":"addcon-nordic-as","n":"Addcon Nordic AS","c":"Norway","s":"A-100","u":""},{"id":"ahlsell-norge-as","n":"Ahlsell Norge AS","c":"Norway","s":"D-386","u":""},{"id":"aider","n":"Aider","c":"Norway","s":"C-016","u":"https://aider.no/"},{"id":"aj-produkter-as","n":"AJ Produkter AS","c":"Norway","s":"A-137","u":"http://www.ajprodukter.no/"},{"id":"aksjeselskapet-tromsø-servicehavna-i-nord","n":"Aksjeselskapet Tromsø-Servicehavna i Nord","c":"Norway","s":"F-515","u":""},{"id":"alfsen-og-gunderson-as","n":"Alfsen og Gunderson AS","c":"Norway","s":"F-531","u":""},{"id":"aliotech","n":"Aliotech","c":"Canada","s":"C-015","u":"https://aliotech.ca/"},{"id":"all4recycle-aps","n":"All4Recycle ApS","c":"Denmark","s":"D-380","u":"http://www.all4recycle.com/"},{"id":"allison-industrial-norway-as","n":"Allison Industrial Norway AS","c":"Norway","s":"A-150","u":"https://allisonoffhighway.com/sac-norway/"},{"id":"alta-havn","n":"Alta havn","c":"Norway","s":"F-515","u":""},{"id":"altech-as","n":"ALTECH AS","c":"Norway","s":"D-326","u":"http://www.altech.no/"},{"id":"amatec-as","n":"Amatec AS","c":"Norway","s":"D-334","u":"http://www.amatec.fish/"},{"id":"amof-fjell-process-technology-as","n":"Amof-Fjell Process Technology AS","c":"Norway","s":"A-140","u":"https://www.amof-fjell.com/"},{"id":"angelnet-bp-adam-nowak","n":"Angelnet BP Adam Nowak","c":"Poland","s":"A-142","u":"http://www.angelnet.pl/"},{"id":"anlegg-og-marine-service-as","n":"Anlegg og Marine Service AS","c":"Norway","s":"A-118","u":"http://www.anlegg-marine.no/"},{"id":"anticimex-as","n":"Anticimex AS","c":"Norway","s":"A-137","u":"http://www.anticimex.no/"},{"id":"aqkva-as","n":"Aqkva AS","c":"Norway","s":"A-118","u":"https://aqkva.no/"},{"id":"aqua-pharma-group-as","n":"Aqua Pharma Group AS","c":"Norway","s":"F-565","u":"https://aqua-pharma.com/"},{"id":"aquatiq","n":"Aquatiq","c":"Norway","s":"F-565","u":"http://www.aquatiq.com/"},{"id":"arez-as","n":"Arez AS","c":"Norway","s":"A-118","u":"https://www.arez.no/"},{"id":"arne-b-corneliussen-as","n":"Arne B Corneliussen AS","c":"Norway","s":"A-137","u":"http://www.abcorneliussen.no/"},{"id":"as-fiskenett","n":"AS Fiskenett","c":"Norway","s":"A-165","u":""},{"id":"as-robinet","n":"AS Robinet","c":"Norway","s":"F-573","u":"https://www.robinet.no/"},{"id":"as-scan","n":"AS Scan","c":"Denmark","s":"D-380","u":"http://www.as-scan.com/"},{"id":"asano-global-co-ltd","n":"ASANO Global Co., Ltd.","c":"Japan","s":"F-516","u":"https://asano-metal.com/"},{"id":"ascom-s-p-a","n":"ASCOM S.P.A","c":"Italy","s":"F-576","u":"http://www.ascom-italy.it/"},{"id":"asia-cordage-pvt-ltd","n":"Asia cordage pvt ltd","c":"India","s":"C-008","u":"http://www.asiacordage.com/"},{"id":"astilleros-de-murueta-s-a","n":"ASTILLEROS DE MURUETA, S.A.","c":"Spain","s":"D-325","u":"http://www.astillerosmurueta.com/"},{"id":"astorplast-a-s","n":"Astorplast A/S","c":"Norway","s":"D-351","u":"http://www.astorplast.no/"},{"id":"atlantic-floats-denmark","n":"Atlantic Floats Denmark","c":"Denmark","s":"D-380","u":"https://atlanticfloats.com/en/"},{"id":"atlantic-shipping-a-s","n":"Atlantic Shipping A/S","c":"Denmark","s":"D-380","u":"http://www.atlanticship.dk/"},{"id":"aukra-maritime-as","n":"Aukra Maritime AS","c":"Norway","s":"U-800","u":"https://aukramaritime.no/home/"},{"id":"austevoll-elektro-as","n":"Austevoll Elektro AS","c":"Norway","s":"D-364","u":"http://www.austevollelektro.no/"},{"id":"autic-system-as","n":"Autic System AS","c":"Norway","s":"A-197","u":"http://www.autic.com/"},{"id":"azcue-pumps-thermal-tec-as","n":"Azcue Pumps/ Thermal Tec AS","c":"Norway","s":"F-552","u":"http://www.thermaltec.no/"},{"id":"baader-norge-as","n":"BAADER Norge AS","c":"Norway","s":"A-157","u":"http://www.baader.com/fish"},{"id":"bagges-as","n":"Bagges AS","c":"Norway","s":"F-558","u":"http://www.bagges.no/"},{"id":"ballstad-slip","n":"Ballstad Slip","c":"Norway","s":"D-356","u":""},{"id":"bauta-group","n":"Bauta Group","c":"Norway","s":"A-110","u":"https://bautagroup.no/"},{"id":"beijer-electronics-as","n":"Beijer Electronics AS","c":"Norway","s":"D-309","u":"http://www.beijerelectronics.no/"},{"id":"belitronic-sweden-ab","n":"Belitronic Sweden AB","c":"Sweden","s":"F-580","u":"https://www.belitronic.se/"},{"id":"bergen-engineering-as","n":"Bergen Engineering AS","c":"Norway","s":"A-118","u":""},{"id":"bergen-engines","n":"Bergen Engines","c":"Norway","s":"D-338","u":"http://www.bergenengines.com/"},{"id":"bergen-hydraulic","n":"Bergen Hydraulic","c":"Norway","s":"A-170","u":"https://bghyd.no/"},{"id":"biesterfeld-norge-as","n":"Biesterfeld Norge AS","c":"Norway","s":"F-549","u":"https://biesterfeld.no/"},{"id":"birgsi-børsa","n":"Birgsi Børsa","c":"Norway","s":"D-305, Skansen at sea","u":"https://bbbenk.no/"},{"id":"blueye-robotics","n":"Blueye Robotics","c":"Norway","s":"A-196","u":"http://www.blueye.no/"},{"id":"blått-kompetansesenter","n":"Blått kompetansesenter","c":"Norway","s":"F-578","u":"https://bksnorge.no/"},{"id":"bohamet-s-a","n":"BOHAMET S.A.","c":"Poland","s":"D-360","u":""},{"id":"brdr-markussens-metalvarefabrik-the-blueline","n":"Brdr. Markussens Metalvarefabrik/The Blueline","c":"Denmark","s":"D-380","u":"http://www.blueline.dk/"},{"id":"bredengen-as","n":"Bredengen AS","c":"Norway","s":"D-301","u":"https://www.bredengen.no/"},{"id":"breivik-mek-verksted","n":"Breivik Mek Verksted","c":"Norway","s":"A-156","u":"http://breivik-as.no/"},{"id":"breter-ragnarok","n":"Breter Ragnarok","c":"Norway","s":"C-005","u":"https://www.breter-ragnarok.com/"},{"id":"bridon-steel-wire-ropes-by-bekaert","n":"BRIDON steel wire ropes by Bekaert","c":"UK","s":"D-389","u":""},{"id":"brimer-as","n":"BRIMER AS","c":"Norway","s":"F-563","u":"https://www.brimer.no/"},{"id":"brunvoll-as","n":"Brunvoll AS","c":"Norway","s":"D-321","u":"http://www.brunvoll.no/"},{"id":"brødr-hukkelberg-as-hukkelberg-boats","n":"Brødr. Hukkelberg AS / Hukkelberg Boats","c":"Norway","s":"A-117","u":"http://www.hukkelbergboats.com/"},{"id":"brødrene-dahl-as","n":"Brødrene Dahl AS","c":"Norway","s":"A-183","u":"http://www.dahl.no/"},{"id":"bud-og-hustad-forsikring","n":"Bud og Hustad Forsikring","c":"Norway","s":"A-172","u":"http://www.budoghustad.no/"},{"id":"buholmen-båt-as","n":"Buholmen Båt AS","c":"Norway","s":"U-810","u":""},{"id":"bunker-oil-as","n":"BUNKER OIL AS","c":"Norway","s":"U-802","u":"https://www.bunkeroil.no/"},{"id":"båtbygg","n":"Båtbygg","c":"Norway","s":"D-343","u":"http://www.baatbygg.no/"},{"id":"bømlo-skipsservice","n":"Bømlo Skipsservice","c":"Norway","s":"D-343","u":"http://www.bsse.no/"},{"id":"c-c-jensen-a-s","n":"C.C. Jensen A/S","c":"Denmark","s":"D-380","u":"http://www.cjc.dk/"},{"id":"campus-blå-vgs","n":"Campus Blå VGS","c":"Norway","s":"D-356","u":""},{"id":"carsoe-seafood-aps","n":"Carsoe Seafood ApS","c":"Denmark","s":"D-380","u":"http://www.carsoe.com/"},{"id":"castrol-norway-as","n":"Castrol Norway AS","c":"Norway","s":"D-370","u":"http://www.mhservice.no/"},{"id":"catchwise-as","n":"CATCHWISE AS","c":"Norway","s":"D-308","u":"http://catchwise.com/"},{"id":"ccom-as","n":"CCOM AS","c":"Norway","s":"F-548","u":"https://www.ccom.no/"},{"id":"cepheo-norge-as","n":"Cepheo Norge AS","c":"Norway","s":"A-137","u":"http://cepheo.com/"},{"id":"cflow-as","n":"Cflow AS","c":"Norway","s":"F-512","u":"http://www.cflow.com/"},{"id":"collicare-projects-logistics-as","n":"ColliCare Projects & Logistics AS","c":"Norway","s":"S-902","u":"https://www.collicare.no/frakt/prosjekt-spesial-last"},{"id":"cosmos-trawl-a-s","n":"Cosmos Trawl A/S","c":"Denmark","s":"D-380","u":"http://www.cosmostrawl.dk/"},{"id":"cosmoshvalpsund","n":"CosmosHvalpsund","c":"Denmark","s":"A-185","u":"http://www.cosmostrawl.dk/"},{"id":"cowab-as","n":"Cowab AS","c":"Norway","s":"A-137","u":""},{"id":"cralog-a-s","n":"Cralog A/S","c":"Denmark","s":"D-380","u":"http://www.cralog.com/"},{"id":"cti-process","n":"CTI Process","c":"Denmark","s":"F-521","u":"https://cti.as/contact/"},{"id":"cvs-engineering-gmbh","n":"CVS engineering GmbH","c":"Germany","s":"F-536","u":"http://www.cvs-eng.com/"},{"id":"dalen-industriservice-as","n":"Dalen Industriservice AS","c":"Norway","s":"C-007","u":"http://dalen-ind.no/"},{"id":"damen-folla","n":"Damen Folla","c":"Norway","s":"F-545, S-904, Skansen at sea","u":"http://damenfolla.no/"},{"id":"damen-shipyards","n":"Damen Shipyards","c":"Netherlands","s":"F-545, Skansen at sea, S-904","u":"http://www.damen.com/"},{"id":"dan-fender","n":"DAN-FENDER","c":"Denmark","s":"D-380","u":"https://danfender.com/"},{"id":"danfish-international-aalborg-kongres-kulturcenter","n":"DanFish International, Aalborg Kongres & Kulturcenter","c":"Denmark","s":"D-380","u":"http://www.akkc.dk/"},{"id":"danfoss","n":"Danfoss","c":"Denmark","s":"D-380","u":"http://www.danfoss.com/"},{"id":"danish-export-association","n":"Danish Export Association","c":"Denmark","s":"D-380","u":"https://www.danishexport.dk/en/industries-and-sectors/fish-tech"},{"id":"davi-turbo-as","n":"DAVI TURBO AS","c":"Norway","s":"A-115","u":"http://www.daviturbo.no/"},{"id":"deepchill-solutions-inc","n":"Deepchill Solutions Inc.","c":"Canada","s":"B-224","u":"https://www.deepchill.com/"},{"id":"desmi-pumping-technology-a-s","n":"DESMI Pumping Technology A/S","c":"Denmark","s":"D-380","u":"http://www.desmi.com/"},{"id":"dimo-as","n":"DIMO AS","c":"Norway","s":"A-179","u":"https://dimo.no/"},{"id":"direktoratet-for-samfunnssikkerhet-og-beredskap-dsb","n":"Direktoratet for samfunnssikkerhet og beredskap (DSB)","c":"Norway","s":"E-414","u":"http://dsb.no/"},{"id":"ditech-as","n":"Ditech AS","c":"Norway","s":"B-205","u":"http://www.ditech.no/"},{"id":"dnv-as","n":"DNV AS","c":"Norway","s":"D-377","u":"https://www.dnv.com/about/maritime/#:~:text=DNV%20is%20the%20world%E2%80%99s%20leading%20classification%20society%20and,%E2%80%93%20across%20all%20vessel%20types%20and%20offshore%20structures."},{"id":"dongyang-mfg","n":"DONGYANG MFG.","c":"Rep. Korea","s":"F-524","u":"http://www.ropes.co.kr/"},{"id":"ds-smith","n":"DS Smith","c":"Norway","s":"A-137","u":"http://www.dssmithpackaging.no/"},{"id":"dunlop-hiflex-as","n":"Dunlop Hiflex AS","c":"Norway","s":"D-352","u":"https://dunlophiflex.se/no/"},{"id":"durwen-maschinenbau-gmbh","n":"Durwen Maschinenbau GmbH","c":"Germany","s":"B-219","u":""},{"id":"durwen-scandinavia","n":"Durwen-Scandinavia","c":"Sweden","s":"B-219","u":""},{"id":"duusgaard-coating-aps","n":"Duusgaard Coating ApS","c":"Denmark","s":"D-380","u":"http://www.duusgaard.dk/"},{"id":"duwel-norway-as","n":"DUWEL Norway AS","c":"Norway","s":"F-509","u":"http://www.duwelgroup.com/"},{"id":"egersund-mustad-havservice","n":"Egersund & Mustad Havservice","c":"Norway","s":"D-356","u":""},{"id":"egersund-group","n":"Egersund Group","c":"Norway","s":"A-165","u":"https://www.egersundgroup.no/"},{"id":"egersund-herøy","n":"Egersund Herøy","c":"Norway","s":"A-165","u":"http://www.egersundheroy.no/"},{"id":"egersund-trål-as","n":"Egersund Trål AS","c":"Norway","s":"A-165","u":""},{"id":"egga-utvikling","n":"Egga Utvikling","c":"Norway","s":"D-356","u":""},{"id":"ekornes-interior-solutions","n":"Ekornes Interior Solutions","c":"Norway","s":"D-340","u":""},{"id":"elit-as","n":"ELIT AS","c":"Norway","s":"A-147","u":""},{"id":"elkon","n":"Elkon","c":"Turkey","s":"A-171","u":"https://elkon-tr.com/tr"},{"id":"elpro-group-as","n":"Elpro Group AS","c":"Norway","s":"A-101","u":""},{"id":"eltorque-as","n":"Eltorque AS","c":"Norway","s":"D-387","u":""},{"id":"enora-as","n":"Enora AS","c":"Norway","s":"A-118","u":"https://www.enora.no/"},{"id":"entech-marine-a-s","n":"Entech Marine A/S","c":"Denmark","s":"D-380","u":"https://entech-marine.com/"},{"id":"eplan-ab","n":"EPLAN AB","c":"Norway","s":"A-162","u":"http://www.eplan.no/"},{"id":"eplast","n":"ePlast","c":"Norway","s":"C-024","u":"https://eplast.no/"},{"id":"eqva-industrial-solutions","n":"EQVA Industrial Solutions","c":"Norway","s":"A-166","u":"http://www.eqva.no/"},{"id":"erling-olstad","n":"Erling Olstad","c":"Norway","s":"A-137","u":""},{"id":"euronete-scandinavia-a-s","n":"Euronete Scandinavia A/S","c":"Denmark","s":"D-335","u":"http://www.euronete.com/"},{"id":"evotec","n":"Evotec","c":"Norway","s":"F-563","u":"https://www.evotec.no/"},{"id":"fagerberg-as","n":"Fagerberg AS","c":"Norway","s":"D-318","u":"http://www.fagerberg.no/"},{"id":"fagskolen-møre-og-romsdal","n":"Fagskolen Møre og Romsdal","c":"Norway","s":"A-110","u":"https://fagskolenmr.no/"},{"id":"famor-s-a","n":"FAMOR S.A.","c":"Poland","s":"D-360","u":"http://www.famor.pl/"},{"id":"fangstr","n":"Fangstr","c":"Norway","s":"D-361","u":""},{"id":"favn-forsikring","n":"Favn Forsikring","c":"Norway","s":"F-515","u":"https://favnforsikring.no/"},{"id":"ff-skagen","n":"FF Skagen","c":"Denmark","s":"D-380","u":"http://www.ffskagen.dk/"},{"id":"fg-racing-as","n":"FG Racing AS","c":"Norway","s":"Skansen at sea","u":"http://www.fgracing.no/"},{"id":"fhf","n":"FHF","c":"Norway","s":"E-426","u":"https://www.fhf.no/"},{"id":"finnmark-fylkeskommune","n":"Finnmark fylkeskommune","c":"Norway","s":"F-515","u":""},{"id":"finnøy-gear-propeller-as","n":"Finnøy Gear & Propeller AS","c":"Norway","s":"A-136","u":"http://www.finnoygear.no/"},{"id":"fished","n":"Fished","c":"Norway","s":"D-356","u":""},{"id":"fiskeribladet","n":"Fiskeribladet","c":"Norway","s":"D-319","u":"http://www.fiskeribladet.no/"},{"id":"fiskeridirektoratet","n":"Fiskeridirektoratet","c":"Norway","s":"E-415","u":"https://www.fiskeridir.no/"},{"id":"fiskerinæringens-innkjøpsselskap-as","n":"Fiskerinæringens innkjøpsselskap as","c":"Norway","s":"A-137","u":"http://www.fiasinnkjop.no/"},{"id":"fiskernes-agnforsyning-sa","n":"Fiskernes Agnforsyning SA","c":"Norway","s":"F-515","u":"https://agn.no/"},{"id":"fiskerstrand-verft","n":"Fiskerstrand Verft","c":"Norway","s":"D-343","u":"http://www.fiskerstrand.no/"},{"id":"fiskevegn-as","n":"Fiskevegn AS","c":"Norway","s":"D-370","u":"http://www.fiskevegn.no/"},{"id":"fitjar-mekaniske-verksted-as","n":"Fitjar Mekaniske Verksted AS","c":"Norway","s":"D-376","u":"https://fmvas.no/"},{"id":"flume-tank-north-sea-afd-i-nordsøen-forskerpark","n":"Flume Tank North Sea, afd. i Nordsøen Forskerpark","c":"Denmark","s":"D-380","u":"https://flumetanknorthsea.com/"},{"id":"foodtech-industri-as","n":"Foodtech Industri AS","c":"Norway","s":"A-137","u":""},{"id":"forskningsrådet","n":"Forskningsrådet","c":"Norway","s":"E-427","u":"https://www.forskningsradet.no/"},{"id":"fosnot-as","n":"Fosnot AS","c":"Norway","s":"D-393","u":""},{"id":"frekhaug-stål-as","n":"Frekhaug Stål AS","c":"Norway","s":"D-324","u":""},{"id":"freyja-fleet-management","n":"Freyja Fleet Management","c":"Norway","s":"Brattørabassenget","u":"https://www.freyja.no/"},{"id":"froster-as","n":"Froster AS","c":"Norway","s":"B-216","u":"http://www.froster.no/"},{"id":"frydenbø-elmarin-as","n":"Frydenbø Elmarin AS","c":"Norway","s":"B-212","u":"http://frydenbo-maritime.no/"},{"id":"frydenbø-forward-as","n":"Frydenbø Forward AS","c":"Norway","s":"A-122","u":"https://www.frydenbo-maritime.no/no/avdelinger/oslo"},{"id":"frydendahl-part-of-egersund-group","n":"Frydendahl, Part of Egersund Group","c":"Denmark","s":"D-380","u":"https://www.frydendahl.com/"},{"id":"frøystad-as","n":"Frøystad AS","c":"Norway","s":"F-510","u":"https://froystad.no/"},{"id":"furuno-norge-as","n":"Furuno Norge AS","c":"Norway","s":"F-547","u":"http://www.furuno.no/"},{"id":"garantikassen-for-fiskere","n":"Garantikassen for fiskere","c":"Norway","s":"E-421","u":"http://www.garantikassen.no/"},{"id":"garware-technical-fibres-limited","n":"Garware Technical Fibres Limited","c":"India","s":"C-017","u":"http://garwarefibres.com/"},{"id":"gateway-stainless-as","n":"Gateway Stainless AS","c":"Norway","s":"A-149","u":"https://gatewaystainless.com/"},{"id":"gearconsult-as","n":"GearConsult AS","c":"Norway","s":"A-192","u":"https://www.gearconsult.no/"},{"id":"giske-kommune","n":"Giske kommune","c":"Norway","s":"A-110","u":"https://www.giske.kommune.no/"},{"id":"gjensidige-forsikring","n":"Gjensidige Forsikring","c":"Norway","s":"A-172","u":"http://www.gjensidige.no/"},{"id":"glamox-as","n":"Glamox AS","c":"Norway","s":"A-160","u":"https://www.glamox.com/global-marine/"},{"id":"glory-europe-bv","n":"GLORY Europe BV","c":"Netherlands","s":"A-174","u":"http://www.glory-eu.com/"},{"id":"granne-forsikring","n":"Granne forsikring","c":"Norway","s":"A-127","u":"http://www.granne.no/"},{"id":"gulf-rope-plastic-products-co-llc","n":"GULF ROPE & PLASTIC PRODUCTS CO.LLC","c":"UAE","s":"C-022","u":"http://www.gulf-rope.com/"},{"id":"guri-kunna-videregående-skole","n":"Guri Kunna videregående skole","c":"Norway","s":"F-540","u":"https://web.trondelagfylke.no/guri-kunna-videregaende-skole/"},{"id":"gurskøy-as","n":"Gurskøy AS","c":"Norway","s":"D-316","u":"https://www.gurskoy.no/"},{"id":"haarslev-industries-a-s","n":"Haarslev Industries A/S","c":"Denmark","s":"D-380","u":"http://www.haarslev.com/"},{"id":"habasit-norge-as","n":"Habasit Norge AS","c":"Norway","s":"F-579","u":"http://www.habasit.com/"},{"id":"hallmaker-as","n":"Hallmaker AS","c":"Norway","s":"A-194","u":"http://hallmaker.no/"},{"id":"hammerfest-havn","n":"Hammerfest havn","c":"Norway","s":"F-515","u":"https://hammerfesthavn.no/"},{"id":"hammerfest-industriservice-as","n":"Hammerfest Industriservice AS","c":"Norway","s":"A-140","u":"https://hisas.no/"},{"id":"hammerfest-kommune","n":"Hammerfest kommune","c":"Norway","s":"F-515","u":"https://hammerfest.kommune.no/"},{"id":"haneseth-setpoint-as","n":"Haneseth Setpoint AS","c":"Norway","s":"A-144","u":"http://www.setpoint.no/"},{"id":"hangzhou-cyber-shenlan-import-and-export-co-ltd","n":"Hangzhou Cyber Shenlan Import and Export Co., Ltd.","c":"China","s":"C-021","u":""},{"id":"hans-claussen-as","n":"Hans Claussen AS","c":"Norway","s":"A-124","u":"https://hc-as.no/"},{"id":"hareid-group","n":"Hareid Group","c":"Norway","s":"A-110","u":"https://www.hareidgroup.com/no/"},{"id":"hav-kjølesystemer-as","n":"Hav Kjølesystemer AS","c":"Norway","s":"A-188","u":""},{"id":"havtrygd-gjensidig-forsikring","n":"Havtrygd Gjensidig Forsikring","c":"Norway","s":"A-172","u":"http://www.havtrygd.no/"},{"id":"heidenreich-as","n":"Heidenreich AS","c":"Norway","s":"A-163","u":"http://www.heidenreich.no/"},{"id":"henkel-norden-ab-loctite-teroson","n":"Henkel Norden AB, (Loctite, Teroson)","c":"Sweden","s":"A-124","u":"https://next.henkel-adhesives.com/no/en.html"},{"id":"hesselberg-as","n":"Hesselberg AS","c":"Norway","s":"B-208","u":"https://www.hesselberg.no/"},{"id":"hetronic-nordic-as","n":"Hetronic Nordic AS","c":"Norway","s":"A-148","u":"http://www.hetronic.no/"},{"id":"hl-skjong-as","n":"HL.Skjong AS","c":"Norway","s":"C-002","u":"http://hlskjong.no/"},{"id":"hoenle-uv-disinfection-austria-gmbh","n":"Hoenle UV Disinfection Austria GmbH","c":"Austria","s":"A-169","u":"http://www.hoenle.com/"},{"id":"honghai-marine-technologies-xiamen-co-ltd","n":"Honghai Marine Technologies (Xiamen) Co., Ltd.","c":"China","s":"C-009","u":"http://www.honghaimarine.com/"},{"id":"hontech-wins-electronics-co-ltd","n":"Hontech-Wins Electronics.Co.,LTD","c":"China","s":"C-012","u":"http://www.szhontech.com/"},{"id":"horden-solutions","n":"Horden Solutions","c":"Denmark","s":"A-185","u":"http://www.hordensolutions.dk/"},{"id":"hoseth-technology","n":"Hoseth Technology","c":"Norway","s":"F-585","u":"http://www.hoseth.com/"},{"id":"hpack-as","n":"Hpack AS","c":"Norway","s":"F-585","u":"https://www.hpack.no/"},{"id":"hps-haf-power-solutions-acel","n":"HPS (Haf Power Solutions) + ACEL","c":"Norway","s":"A-119","u":"https://www.hps.no/"},{"id":"hs-marine","n":"Hs.Marine","c":"Italy","s":"U-806","u":"http://www.hsmarine.net/"},{"id":"hunan-xinhai-co-ltd","n":"HUNAN XINHAI CO., LTD","c":"China","s":"C-026","u":"http://www.net-rope.com/"},{"id":"hybeko-as","n":"Hybeko AS","c":"Norway","s":"C-011","u":"http://www.hybeko.no/"},{"id":"hydroscand-as","n":"Hydroscand AS","c":"Norway","s":"A-107","u":""},{"id":"hytek-a-s","n":"Hytek A/S","c":"Denmark","s":"D-380","u":"http://www.hytek.dk/"},{"id":"ibercisa-deck-machinery","n":"Ibercisa Deck Machinery","c":"Spain","s":"D-300","u":"http://www.ibercisa.es/"},{"id":"ide-house-of-brands-as","n":"Ide House Of brands AS","c":"Norway","s":"A-137","u":"http://idegroup.no/"},{"id":"iec-telecom-norway-as","n":"IEC Telecom Norway AS","c":"Norway","s":"A-158","u":"http://www.iec-telecom.com/"},{"id":"if-skadeforsikring","n":"IF Skadeforsikring","c":"Norway","s":"A-137","u":"http://www.if.no/"},{"id":"imse-bv","n":"IMSE bv","c":"Belgium","s":"B-226","u":"http://www.imse.org/"},{"id":"in-the-same-boat","n":"In The Same Boat","c":"Norway","s":"F-551","u":"https://www.inthesameboat.eco/"},{"id":"inmatech-as","n":"Inmatech AS","c":"Norway","s":"B-218","u":"http://www.inmatech.no/"},{"id":"innovasjon-norge-eksfin","n":"Innovasjon Norge-Eksfin","c":"Norway","s":"E-410","u":"http://www.innovasjonnorge.no/"},{"id":"iras-a-s","n":"IRAS A/S","c":"Denmark","s":"D-380","u":"http://www.iras.dk/"},{"id":"irrsea-as","n":"Irrsea AS","c":"Norway","s":"F-582","u":""},{"id":"isfell-ehf","n":"Isfell EHF","c":"Iceland","s":"D-393","u":""},{"id":"ishavskraft-as","n":"Ishavskraft AS","c":"Norway","s":"A-187","u":"https://bedriftskunde.ishavskraft.no/"},{"id":"isowest-as","n":"Isowest AS","c":"Norway","s":"A-140","u":"https://isowest.no/"},{"id":"itub-as","n":"iTUB AS","c":"Norway","s":"F-557","u":"http://www.itub-rental.com/"},{"id":"itvakta","n":"ITVakta","c":"Norway","s":"A-110","u":"https://www.itvakta.no/"},{"id":"j-weiberg-gulliksen-as","n":"J.WEIBERG GULLIKSEN AS","c":"Norway","s":"U-804","u":""},{"id":"ja-gulvsystemer-as","n":"Ja Gulvsystemer As","c":"Norway","s":"A-126","u":"https://www.jagulv.no/"},{"id":"jens-berg-shipping-aps","n":"Jens Berg Shipping ApS","c":"Denmark","s":"D-380","u":"https://bergship.dk/"},{"id":"jets-vacuum-as","n":"Jets Vacuum as","c":"Norway","s":"D-363","u":"http://jetsgroup.com/"},{"id":"jm-hansen-as","n":"JM Hansen AS","c":"Norway","s":"F-515","u":"http://www.jmhansen.no/"},{"id":"johan-christian-loennechen-as","n":"Johan Christian Loennechen AS","c":"Norway","s":"D-389","u":"http://jclas.no/"},{"id":"jotron-as","n":"Jotron AS","c":"Norway","s":"A-106","u":"http://www.jotron.com/"},{"id":"k2-multipack","n":"K2 Multipack","c":"Norway","s":"D-356","u":""},{"id":"kapp-norway-as","n":"KAPP Norway AS","c":"Norway","s":"A-104","u":"https://kapp.com/"},{"id":"karmøy-winch-as","n":"Karmøy Winch as","c":"Norway","s":"D-350","u":"http://www.karmoy-winch.no/"},{"id":"karstensens-skibsværft-a-s","n":"Karstensens Skibsværft A/S","c":"Denmark","s":"D-380","u":"http://www.karstensens.dk/"},{"id":"kgk","n":"KGK","c":"Norway","s":"A-134, Skansen at sea","u":"https://kgk.no/"},{"id":"kongsberg","n":"Kongsberg","c":"Norway","s":"F-530","u":"https://www.kongsberg.com/"},{"id":"kr-automasjon","n":"KR Automasjon","c":"Norway","s":"D-356","u":""},{"id":"kumera-marine-as","n":"Kumera Marine AS","c":"Norway","s":"B-207","u":"http://www.kumera.com/"},{"id":"kumho-fishing-tackle-co-ltd","n":"KUMHO FISHING TACKLE CO.LTD","c":"Rep. Korea","s":"F-556","u":"http://www.kumhohook.co.kr/"},{"id":"kyst-og-fjord-as","n":"Kyst og Fjord AS","c":"Norway","s":"F-515","u":""},{"id":"kystmagasinet","n":"Kystmagasinet","c":"Norway","s":"D-306","u":"http://kystmagasinet.no/"},{"id":"kølemadsen-a-s","n":"Kølemadsen A/S","c":"Denmark","s":"D-380","u":"https://kolemadsen.dk/"},{"id":"labolytic-as","n":"Labolytic AS","c":"Norway","s":"C-018","u":"http://www.labolytic.no/"},{"id":"langset-group-as","n":"Langset Group AS","c":"Norway","s":"A-140","u":"https://www.langset.no/"},{"id":"langset-maritime-as","n":"Langset Maritime AS","c":"Norway","s":"A-140","u":"https://www.langsetmaritime.no/"},{"id":"lankhorst-euronete-portugal","n":"Lankhorst Euronete Portugal","c":"Portugal","s":"D-335","u":"http://www.euronete.com/"},{"id":"larsnes-mek-verksted","n":"Larsnes Mek. Verksted","c":"Norway","s":"D-343","u":"http://www.larsnes-mek.no/"},{"id":"latech","n":"Latech","c":"Norway","s":"D-356","u":""},{"id":"lederne","n":"Lederne","c":"Norway","s":"E-419","u":"http://lederne.no/"},{"id":"lehmann-marine-gmbh","n":"Lehmann Marine GmbH","c":"Germany","s":"D-341","u":"https://www.lehmann-marine.com/"},{"id":"leica-geosystems-as","n":"Leica Geosystems AS","c":"Norway","s":"B-213","u":"https://leica-geosystems.com/nn-no"},{"id":"leif-h-strøm-as","n":"Leif H Strøm AS","c":"Norway","s":"C-001","u":""},{"id":"lekang-filter-as","n":"Lekang Filter AS","c":"Norway","s":"C-030","u":"https://lekangfilter.no/"},{"id":"libra","n":"Libra","c":"Norway","s":"A-110","u":"https://www.libra.no/"},{"id":"lilaas-as","n":"Lilaas AS","c":"Norway","s":"A-151","u":"http://www.lilaas.no/"},{"id":"lofoten-hydraulikk-as","n":"Lofoten Hydraulikk AS","c":"Norway","s":"D-356","u":""},{"id":"lyd-og-telesystemer-as","n":"Lyd og Telesystemer AS","c":"Norway","s":"D-302","u":"http://www.lydogtele.com/"},{"id":"macgregor-norway-as","n":"MacGregor Norway AS","c":"Norway","s":"D-332","u":""},{"id":"malproff","n":"Malproff","c":"Norway","s":"A-137","u":"http://www.malproff.no/"},{"id":"mancraft-as","n":"MANCRAFT AS","c":"Norway","s":"B-201","u":"https://mancraft.no/"},{"id":"manpowergroup-as","n":"Manpowergroup AS","c":"Norway","s":"A-137","u":"http://www.manpowergroup.no/"},{"id":"marin-design-as","n":"Marin Design AS","c":"Norway","s":"A-152, S-905","u":"http://marindesign.no/"},{"id":"marin-teknikkk-as","n":"Marin Teknikkk AS","c":"Norway","s":"D-375","u":"http://www.marinteknikk.no/"},{"id":"marina-solutions-as","n":"Marina Solutions AS","c":"Norway","s":"A-155","u":"https://marinasolutions.no/"},{"id":"marine-control-services-as","n":"Marine Control Services AS","c":"Norway","s":"A-198","u":"http://www.mcs.no/"},{"id":"marine-dynamics-as","n":"Marine Dynamics AS","c":"Norway","s":"A-137","u":"http://www.marinedynamics.no/"},{"id":"marineteam-as","n":"MarineTeam AS","c":"Norway","s":"Skansen at sea","u":""},{"id":"marint-samarbeid","n":"Marint Samarbeid","c":"Norway","s":"F-578","u":"https://www.hitra.kommune.no/nyheter/marint-samarbeid-pa-nor-fishing-2026/"},{"id":"maritim-motor-as","n":"Maritim Motor AS","c":"Norway","s":"B-202","u":"http://www.maritim-motor.no/"},{"id":"maritim-sveiseservice-as","n":"Maritim Sveiseservice AS","c":"Norway","s":"F-515","u":"http://www.maritim-sveis.no/"},{"id":"maritime-competence-as","n":"Maritime Competence AS","c":"Norway","s":"A-184","u":"http://www.macom.no/"},{"id":"maritime-guardian-as","n":"Maritime Guardian AS","c":"Norway","s":"A-153","u":"http://wwww.maritimeguardian.no/"},{"id":"maritime-montering","n":"Maritime Montering","c":"Norway","s":"D-391","u":"http://www.maritimemontering.com/"},{"id":"maritime-robotics-as","n":"Maritime Robotics AS","c":"Norway","s":"S-901, Skansen at sea","u":"https://www.maritimerobotics.com/"},{"id":"marlink-as","n":"Marlink AS","c":"Norway","s":"A-137","u":""},{"id":"marport-norge-as","n":"Marport Norge AS","c":"Norway","s":"F-529","u":"https://www.marport.com/"},{"id":"me-production-a-s","n":"ME Production A/S","c":"Denmark","s":"D-380","u":"https://meproduction.com/"},{"id":"melbu-systems-as","n":"Melbu Systems AS","c":"Norway","s":"F-571","u":"https://melbusystems.no/"},{"id":"melcal-as","n":"MELCAL AS","c":"Norway","s":"F-538","u":"https://melcal.com/"},{"id":"meløy-notbøteri-as","n":"Meløy Notbøteri AS","c":"Norway","s":"A-165","u":""},{"id":"mg-sp-z-o-o-sp-k-cat-authorized-marine-dealer","n":"MG Sp. z o.o. Sp. k. - CAT Authorized Marine Dealer","c":"Poland","s":"D-360","u":""},{"id":"mhservice-as","n":"MHService AS","c":"Norway","s":"D-370","u":"http://www.mhservice.no/"},{"id":"midsund-elektro","n":"Midsund Elektro","c":"Norway","s":"A-110","u":"https://www.midsundelektro.no/"},{"id":"mmc-first-process","n":"MMC First Process","c":"Norway","s":"A-190","u":"http://mmcfirstprocess.com/"},{"id":"moen-marin","n":"Moen Marin","c":"Norway","s":"A-152, Brattørabassenget, S-905, Skansen at sea","u":""},{"id":"moltech-norge-as","n":"Moltech Norge AS","c":"Norway","s":"A-120","u":"https://www.moltech.no/"},{"id":"mosmatic-ag","n":"Mosmatic AG","c":"Switzerland","s":"F-559","u":"https://www.mosmatic.com/de/"},{"id":"mount-as","n":"Mount AS","c":"Norway","s":"D-303, D-313","u":"http://mount.app/"},{"id":"mpack-as","n":"MPack AS","c":"Norway","s":"A-137","u":"http://www.mpack.no/"},{"id":"mustad-autoline-as","n":"Mustad Autoline AS","c":"Norway","s":"A-108","u":"http://www.mustadautoline.com/"},{"id":"myklebust-verft","n":"Myklebust Verft","c":"Norway","s":"D-343","u":"https://www.nssm.no/aktuelt/investerer-i-ny-flytedokk-ved-vard-langsten/yklebustverft.no"},{"id":"måløy-maritime-group","n":"Måløy Maritime Group","c":"Norway","s":"D-370","u":"http://www.maloymaritime.no/"},{"id":"møre-og-romsdal-fylkeskommune","n":"Møre og Romsdal fylkeskommune","c":"Norway","s":"A-110","u":"http://mrfylke.no/"},{"id":"mørenot-refa-as","n":"Mørenot Refa AS","c":"Norway","s":"A-102","u":"http://www.morenot.com/"},{"id":"nanoice","n":"Nanoice","c":"Norway","s":"A-110","u":"https://nanoiceglobal.com/"},{"id":"naust-marine","n":"Naust Marine","c":"Spain","s":"F-507","u":"http://www.naustmarine.com/"},{"id":"nauta-shiprepair-yard","n":"Nauta Shiprepair Yard","c":"Poland","s":"D-360","u":"https://nauta.pl/pl/"},{"id":"navy-rørvik-as","n":"Navy Rørvik AS","c":"Norway","s":"A-152, S-905","u":"http://navy.no/"},{"id":"nemko-norlab-as","n":"Nemko Norlab AS","c":"Norway","s":"A-137","u":""},{"id":"net-op-aps","n":"Net-op ApS","c":"Denmark","s":"F-508","u":""},{"id":"netastovan-p-f","n":"Netastovan P/F","c":"Faeroe Is.","s":"D-393","u":"http://netastovan.fo/"},{"id":"neuver-maritime-as","n":"Neuver Maritime AS","c":"Norway","s":"A-189","u":"http://www.neuver.com/"},{"id":"nodosa-shipyard","n":"NODOSA SHIPYARD","c":"Spain","s":"D-322","u":"http://www.nodosa.com/"},{"id":"nofi-as","n":"NOFI AS","c":"Norway","s":"F-515","u":"http://www.nofi.no/"},{"id":"nofima-as","n":"Nofima AS","c":"Norway","s":"E-429","u":""},{"id":"nogva-motorfabrikk-as","n":"Nogva Motorfabrikk AS","c":"Norway","s":"B-200","u":""},{"id":"nor-fishing-2026","n":"Nor-Fishing 2026","c":"Norway","s":"F-500","u":"http://www.nor-fishing.no/"},{"id":"norbait-as","n":"Norbait as","c":"Norway","s":"A-108","u":"http://%20www.domstein.no/"},{"id":"nord-trøndelag-havn","n":"Nord-Trøndelag Havn","c":"Norway","s":"F-578","u":"https://nthr.no/"},{"id":"nordic-supply-system-as","n":"Nordic Supply System AS","c":"Norway","s":"F-554","u":"http://www.nordicsupply.no/"},{"id":"nordkapp-notbøteri-as","n":"Nordkapp Notbøteri AS","c":"Norway","s":"A-165","u":""},{"id":"nordland-fagskole","n":"Nordland Fagskole","c":"Norway","s":"D-356","u":""},{"id":"nordland-fylkeskommune-arena-nordland","n":"Nordland fylkeskommune/Arena Nordland","c":"Norway","s":"D-356","u":""},{"id":"nordlys-forsikring","n":"Nordlys Forsikring","c":"Norway","s":"A-172","u":"http://www.nordlysforsikring.no/"},{"id":"norengros-markedshuset-as","n":"NorEngros - Markedshuset AS","c":"Norway","s":"F-515","u":"http://www.norengros.no/"},{"id":"norengros-as","n":"Norengros AS","c":"Norway","s":"A-137","u":"http://www.norengros.no/"},{"id":"norges-fiskarlag","n":"Norges Fiskarlag","c":"Norway","s":"E-411","u":"http://www.fiskarlaget.no/"},{"id":"norges-kystfiskarlag","n":"Norges Kystfiskarlag","c":"Norway","s":"D-356","u":"http://www.norgeskystfiskarlag.no/"},{"id":"norges-råfisklag-sa","n":"NORGES RÅFISKLAG SA","c":"Norway","s":"E-412","u":"https://www.rafisklaget.no/"},{"id":"norges-sildesalgslag","n":"Norges Sildesalgslag","c":"Norway","s":"E-413","u":"http://www.sildelaget.no/"},{"id":"norgesplaster-as","n":"Norgesplaster AS","c":"Norway","s":"F-526","u":"http://www.snogg.no/"},{"id":"norisol-a-s","n":"Norisol A/S","c":"Denmark","s":"D-380","u":"http://www.norisol.com/"},{"id":"normex-as","n":"Normex AS","c":"Norway","s":"F-564","u":"http://http//:www.normex.no"},{"id":"norsap-as","n":"NORSAP AS","c":"Norway","s":"A-199","u":"https://norsap.no/"},{"id":"norse-tersanecilik-san-ve-tic-as","n":"Norse TErsanecilik San ve Tic AS","c":"Turkey","s":"A-173","u":"https://www.norse.com.tr/"},{"id":"norseye-as","n":"Norseye AS","c":"Norway","s":"A-161","u":"http://www.norseye.com/"},{"id":"norsirk-as","n":"Norsirk AS","c":"Norway","s":"A-137","u":"http://www.norsirk.no/"},{"id":"norsk-elektroteknisk-komite-nek","n":"Norsk Elektroteknisk Komite, NEK","c":"Norway","s":"E-418","u":""},{"id":"norske-skipsverft","n":"Norske Skipsverft","c":"Norway","s":"D-343","u":"http://www.norskeskipsverft.no/"},{"id":"north-sea-maritime-as","n":"North Sea Maritime AS","c":"Norway","s":"U-805","u":""},{"id":"norwater-as","n":"Norwater AS","c":"Norway","s":"F-520","u":"http://www.norwater.no/"},{"id":"nova-shipbrokers-as","n":"Nova Shipbrokers AS","c":"Norway","s":"C-023","u":"http://www.novaship.no/"},{"id":"ntnu-hav-og-kyst","n":"NTNU - Hav og kyst","c":"Norway","s":"E-430","u":"https://www.ntnu.no/hav-kyst"},{"id":"nyborg-as","n":"NYBORG AS","c":"Norway","s":"A-110","u":"https://www.nyborgfan.com/en"},{"id":"ocomp","n":"OComp","c":"Norway","s":"C-028","u":"https://www.ocomp.co/"},{"id":"olex-as","n":"Olex AS","c":"Norway","s":"F-583","u":"http://www.olex.no/"},{"id":"oliveira-sa","n":"Oliveira SA","c":"Portugal","s":"D-335","u":"http://www.oliveirasa.com/"},{"id":"opplæringskontoret-i-sør-fosen","n":"Opplæringskontoret i Sør-Fosen","c":"Norway","s":"F-578","u":"https://oksf.no/"},{"id":"optimar-as","n":"Optimar AS","c":"Norway","s":"A-180","u":"http://www.optimar.no/"},{"id":"orcan-energy-ag","n":"Orcan Energy AG","c":"Germany","s":"A-192","u":"https://www.orcan-energy.com/en/"},{"id":"orskov-yard-a-s","n":"ORSKOV YARD A/S","c":"Denmark","s":"D-380","u":"http://www.orskov.dk/"},{"id":"otto-olsen-as","n":"Otto Olsen AS","c":"Norway","s":"A-186","u":"http://www.oo.no/"},{"id":"overhalla-betongbygg-as","n":"Overhalla Betongbygg AS","c":"Norge","s":"F-518","u":"https://overhallabetongbygg.no/"},{"id":"oxitrate-as","n":"Oxitrate AS","c":"Norway","s":"D-347","u":"http://www.oxitrate.no/"},{"id":"pelias-as","n":"Pelias AS","c":"Norway","s":"A-137","u":"http://www.pelias.no/"},{"id":"philip-hauge-as","n":"Philip Hauge AS","c":"Norway","s":"A-118","u":"https://philiphauge.no/"},{"id":"phoenix-contact-as","n":"Phoenix Contact AS","c":"Norway","s":"A-162","u":""},{"id":"plastinvent-as","n":"PLASTINVENT AS","c":"Norway","s":"F-570","u":"http://www.plastinvent.no/"},{"id":"pmh-norway-as","n":"PMH Norway AS","c":"Norway","s":"C-003","u":"http://www.pmh.no/"},{"id":"polish-maritime-employers-association","n":"POLISH MARITIME EMPLOYERS’ ASSOCIATION","c":"Poland","s":"D-360","u":""},{"id":"polyform","n":"Polyform","c":"Norway","s":"A-110","u":"https://polyform.no/"},{"id":"powermec-as","n":"Powermec AS","c":"Norway","s":"A-113","u":"http://www.powermec.no/"},{"id":"premas-as","n":"Premas AS","c":"Norway","s":"A-110","u":"https://www.premas.no/"},{"id":"presto-training-as","n":"Presto Training AS","c":"Norway","s":"A-137","u":""},{"id":"progress-ingeniørfirma-as","n":"Progress Ingeniørfirma AS","c":"Norway","s":"B-232","u":""},{"id":"pronav-as","n":"ProNav AS","c":"Norway","s":"A-133","u":"http://www.pronav.no/"},{"id":"ptg-frionordica-as","n":"PTG Frionordica AS","c":"Norway","s":"F-523","u":"http://www.ptg.no/"},{"id":"ptg-kuldeteknisk-as","n":"PTG Kuldeteknisk AS","c":"Norway","s":"F-523","u":"http://www.ptg.no/"},{"id":"pumpe-maskinteknikk-as","n":"Pumpe & Maskinteknikk AS","c":"Norway","s":"F-525","u":"https://pumpeogmaskinteknikk.no/"},{"id":"pureocean-marine","n":"PureOcean Marine","c":"China","s":"C-013","u":"http://www.pureoceanmarine.com/"},{"id":"pyxisat-as","n":"Pyxisat AS","c":"Norway","s":"D-304","u":"http://www.pyxisat.no/"},{"id":"qingdao-deepblue-aqua-equipment-co-ltd","n":"QINGDAO DEEPBLUE AQUA EQUIPMENT CO LTD","c":"China","s":"C-013","u":"http://www.deepblue-equipment.com/"},{"id":"qingdao-lg-rigging-co-ltd","n":"QINGDAO LG RIGGING CO., LTD","c":"Denmark","s":"C-004","u":""},{"id":"qingdao-wancheng-anchor-chain-co-ltd","n":"QINGDAO WANCHENG ANCHOR CHAIN CO., LTD","c":"China","s":"A-168","u":"http://www.wac-corp.com/"},{"id":"r-stahl-scandinavia-as","n":"R. Stahl Scandinavia AS","c":"Norway","s":"D-337","u":"https://stahl-tranberg.com/"},{"id":"randers-reb-international-a-s","n":"Randers Reb International A/S","c":"Denmark","s":"D-380","u":"http://www.randers-reb.dk/"},{"id":"redox-as","n":"Redox AS","c":"Norway","s":"A-181","u":"http://redox.no/"},{"id":"reflex-etikett-as","n":"Reflex Etikett AS","c":"Norway","s":"A-137","u":"http://www.reflexetikett.no/"},{"id":"relekta-as","n":"Relekta AS","c":"Norway","s":"C-029","u":"http://www.relekta.no/"},{"id":"renk-gmbh","n":"RENK GmbH","c":"Germany","s":"A-192","u":"https://www.renk.com/"},{"id":"renthall-as","n":"RENTHALL AS","c":"Norway","s":"A-194","u":"http://renthall.no/"},{"id":"rentokil","n":"Rentokil","c":"Norway","s":"A-137","u":"http://www.rentokil-initial.no/"},{"id":"retronic-as","n":"Retronic as","c":"Norway","s":"C-020","u":"http://retronic.no/"},{"id":"retura-norge-as","n":"Retura Norge AS","c":"Norway","s":"A-137","u":"http://www.retura.no/"},{"id":"rg-rom-gummi-rub-tech-østbornholms-kutterservice","n":"RG ROM GUMMI / RUB-TECH / ØSTBORNHOLMS KUTTERSERVICE","c":"Denmark","s":"F-562","u":"http://www.romgummi.dk/"},{"id":"rittal-as","n":"Rittal AS","c":"Norway","s":"A-162","u":"https://www.rittal.com/no-no/"},{"id":"rmig-as","n":"RMIG AS","c":"Norway","s":"C-025","u":"http://www.rmig.com/no"},{"id":"rt-rental-as","n":"RT Rental AS","c":"Norway","s":"D-314","u":"https://rtrental.no/"},{"id":"rubbhall-as","n":"RUBBHALL AS","c":"Norway","s":"A-194","u":"https://rubb.no/"},{"id":"rufo-as","n":"Rufo AS","c":"Norway","s":"B-223","u":"http://www.rufo.no/"},{"id":"røde-kors-førstehjelp","n":"Røde Kors Førstehjelp","c":"Norway","s":"B-221","u":"http://xn--ww-bva.rkfn.no/"},{"id":"rørvik-marina-as","n":"Rørvik Marina AS","c":"Norway","s":"A-152, S-905","u":"http://rorvikmarina.no/"},{"id":"sailorsmate-as","n":"SailorsMate AS","c":"Norway","s":"F-561","u":"http://www.sailorsmate.com/"},{"id":"salt-ship-design","n":"Salt Ship Design","c":"Norway","s":"Skansen at sea","u":""},{"id":"saltimport-as","n":"SALTIMPORT AS","c":"Norway","s":"A-182","u":"http://www.salt.no/"},{"id":"samey-robotics-as","n":"Samey Robotics AS","c":"Norway","s":"F-581","u":"http://www.samey.no/"},{"id":"samson-pumps-a-s","n":"Samson Pumps A/S","c":"Denmark","s":"D-380","u":"https://www.samson-pumps.com/"},{"id":"samthan-shedge","n":"Samthan Shedge","c":"Norway","s":"D-317","u":"https://samthans.com/"},{"id":"sc-johnson-professional-as","n":"SC Johnson Professional AS","c":"Norway","s":"C-027","u":"https://www.scjp.com/no-nb"},{"id":"scanbelt-a-s","n":"ScanBelt A/S","c":"Denmark","s":"D-380","u":"http://www.scanbelt.com/"},{"id":"scandic-pelagic-a-s","n":"Scandic Pelagic A/S","c":"Denmark","s":"D-380","u":"http://www.scandicpelagic.com/"},{"id":"scanel-international-a-s","n":"Scanel International A/S","c":"Denmark","s":"D-380","u":"http://www.scanel.dk/"},{"id":"scanico-a-s","n":"Scanico A/S","c":"Denmark","s":"D-380","u":"http://www.scanico.com/"},{"id":"scantrol-as","n":"Scantrol AS","c":"Norway","s":"A-118","u":"https://www.scantrol.com/"},{"id":"sea-tek-as","n":"Sea-Tek AS","c":"Norway","s":"B-230, Skansen at sea","u":"https://www.sea-tek.no/"},{"id":"seacon-as","n":"Seacon as","c":"Norway","s":"D-390","u":"https://seacon.no/"},{"id":"seafish-kingfisher","n":"Seafish (Kingfisher)","c":"UK","s":"F-575","u":""},{"id":"seaman-europa-sl","n":"SEAMAN EUROPA SL","c":"Spain","s":"A-130","u":"http://www.seamanelectronics.com/"},{"id":"seamech-a-s","n":"Seamech A/S","c":"Denmark","s":"D-380","u":"http://www.seamech.dk/"},{"id":"seaonics","n":"SEAONICS","c":"Norway","s":"D-328","u":"https://www.seaonics.com/"},{"id":"seaquest-systems","n":"SeaQuest Systems","c":"Ireland","s":"D-339","u":"http://www.seaquest.ie/"},{"id":"seat-innovation-as","n":"Seat Innovation AS","c":"Norway","s":"A-154","u":"https://www.seatinnovation.no/"},{"id":"sefi-ne-shipyard-inc","n":"SEFİNE Shipyard Inc.","c":"Turkey","s":"F-553","u":"https://sefine.com.tr/"},{"id":"selfa-arctic-as","n":"Selfa Arctic AS","c":"Norway","s":"B-222","u":""},{"id":"selstad-as","n":"Selstad AS","c":"Norway","s":"D-393","u":"https://selstad.no/"},{"id":"senja-kommune","n":"Senja Kommune","c":"Norway","s":"F-515","u":"https://www.senja.kommune.no/"},{"id":"sensar-marine-norway-as","n":"Sensar Marine Norway AS","c":"Norway","s":"A-175","u":"https://sensarmarine.com/"},{"id":"sensilist-as","n":"Sensilist AS","c":"Norway","s":"F-565","u":"https://www.sensilist.com/"},{"id":"servi-as","n":"Servi AS","c":"Norway","s":"D-374","u":"http://www.servi.no/"},{"id":"servicegrossistene-as","n":"Servicegrossistene AS","c":"Norway","s":"A-137","u":"http://www.servicegrossistene.no/"},{"id":"shanghai-baixin-material-co-ltd","n":"Shanghai Baixin Material Co.,ltd","c":"China","s":"A-159","u":"http://en.shbxmat.com/"},{"id":"shm-maritime-as","n":"SHM Maritime AS","c":"Norway","s":"S-900","u":"http://www.shm.no/"},{"id":"sikkerhetssenteret-rørvik-as","n":"Sikkerhetssenteret Rørvik AS","c":"Norway","s":"A-103","u":"https://ssras.no/"},{"id":"silecmar-s-l","n":"SILECMAR S.L.","c":"Spain","s":"A-130","u":"http://www.silecmar.com/"},{"id":"silikal-nordvest-as","n":"Silikal Nordvest AS","c":"Norway","s":"A-135","u":"http://www.silikal-industribelegg.no/"},{"id":"sintef-ocean","n":"SINTEF Ocean","c":"Norway","s":"E-428","u":"http://sintef.no/"},{"id":"sirius-design-integration-as","n":"Sirius Design & Integration AS","c":"Norway","s":"D-315","u":"http://www.siriusdi.com/"},{"id":"sjøentreprenøren-as","n":"Sjøentreprenøren AS","c":"Norway","s":"F-506","u":"https://sjoentreprenoren.no/"},{"id":"sjøfartsdirektoratet","n":"Sjøfartsdirektoratet","c":"Norway","s":"E-414","u":"https://www.sdir.no/"},{"id":"sjømat-norge","n":"Sjømat Norge","c":"Norway","s":"E-416","u":"https://sjomatnorge.no/"},{"id":"sjømatbedriftene","n":"Sjømatbedriftene","c":"Norway","s":"E-417","u":"https://sjomatbedriftene.no/"},{"id":"skala-as","n":"Skala AS","c":"Norway","s":"A-137","u":"https://www.skala.no/"},{"id":"skipskompetanse-as","n":"Skipskompetanse AS","c":"Norway","s":"D-333","u":"http://www.skipskompetanse.no/"},{"id":"skipsteknisk-as","n":"Skipsteknisk AS","c":"Norway","s":"A-164","u":"http://www.skipsteknisk.no/"},{"id":"sleipner-motor-as","n":"Sleipner Motor AS","c":"Norway","s":"A-105","u":"https://no.sleipnergroup.com/"},{"id":"smart-automation-as","n":"SMART AUTOMATION AS","c":"Norway","s":"D-382","u":"http://www.smartautomation.no/"},{"id":"smart-ocean-as","n":"Smart Ocean AS","c":"Norway","s":"F-584","u":"https://www.smartocean.com/"},{"id":"sna-europe-norway-as","n":"SNA Europe (Norway) AS","c":"Norway","s":"B-220","u":"https://www.bahco.com/no_nb/"},{"id":"solhaug-maritim-as","n":"Solhaug Maritim AS","c":"Norway","s":"A-152, S-905","u":"http://solhaugmaritim.no/"},{"id":"solhaug-skipselektro-as","n":"Solhaug Skipselektro AS","c":"Norway","s":"A-132","u":"http://www.solhaug.as/"},{"id":"sotra-maskin-produkter-as","n":"SOTRA MASKIN PRODUKTER AS","c":"Norway","s":"F-517","u":"http://sotra-maskin.no/"},{"id":"stadyard-as","n":"Stadyard AS","c":"Norway","s":"D-370","u":"http://www.stadyard.no/"},{"id":"standard-norge","n":"Standard Norge","c":"Norway","s":"E-418","u":"https://standard.no/"},{"id":"steel-x-as","n":"Steel-X AS","c":"Norway","s":"F-572","u":"http://steel-x.no/"},{"id":"sto-norge-as","n":"Sto Norge AS","c":"Norway","s":"F-522","u":"http://www.sto.no/"},{"id":"stok-as","n":"Stok AS","c":"Norway","s":"F-515","u":""},{"id":"stokmarkned-miljøhavn","n":"Stokmarkned Miljøhavn","c":"Norway","s":"D-356","u":""},{"id":"stord-process","n":"Stord Process","c":"Norway","s":"A-195","u":"http://www.stord-as.com/"},{"id":"stormcranes-as","n":"Stormcranes AS","c":"Norway","s":"D-381","u":"http://stormcranes.com/"},{"id":"sulzer-pumps-wastewater-norway-as","n":"Sulzer Pumps Wastewater Norway AS","c":"Norway","s":"A-191","u":"https://www.sulzer.com/"},{"id":"sunnmøre-og-romsdal-fiskesalgslag-sa","n":"Sunnmøre og Romsdal Fiskesalgslag SA","c":"Norway","s":"E-411","u":"http://www.surofi.no/"},{"id":"syberg-as","n":"Syberg AS","c":"Norway","s":"A-129","u":"http://syberg.no/"},{"id":"sæplast-norway-as","n":"Sæplast Norway AS","c":"Norway","s":"F-557","u":"http://www.saeplast.com/"},{"id":"tamtron-as","n":"Tamtron AS","c":"Norway","s":"D-356","u":"http://tamtron.no/"},{"id":"techmarine-sp-z-o-o-sp-k","n":"TECHMARINE Sp. z o.o. Sp. K.","c":"Poland","s":"D-360","u":""},{"id":"teige-gruppen","n":"Teige Gruppen","c":"Norway","s":"D-348","u":"https://www.teigegruppen.no/"},{"id":"teknotherm-marine-as","n":"Teknotherm Marine AS","c":"Norway","s":"F-528","u":"http://www.teknotherm.com/"},{"id":"telemar-norge-as","n":"Telemar Norge As","c":"Norway","s":"A-129","u":"http://www.telemsrgroup.com/"},{"id":"telenor-maritime","n":"Telenor Maritime","c":"Norway","s":"F-560","u":"https://telenormaritime.com/"},{"id":"telenor-norge-as","n":"Telenor Norge AS","c":"Norway","s":"A-137","u":"http://www.telenor.no/"},{"id":"tempia","n":"Tempia","c":"Norway","s":"D-356","u":""},{"id":"termika-sp-z-o-o","n":"Termika Sp. z o. o.","c":"Poland","s":"D-360","u":""},{"id":"tersan-shipyard","n":"Tersan Shipyard","c":"Turkey","s":"D-362","u":"https://tersanshipyard.com/en"},{"id":"tess-as","n":"TESS as","c":"Norway","s":"D-329","u":"http://www.tess.no/"},{"id":"therma-industri-as","n":"Therma Industri AS","c":"Norway","s":"F-577","u":"http://www.therma.no/"},{"id":"thyborøn-port-thyborøn-havn","n":"Thyborøn Port - Thyborøn Havn","c":"Denmark","s":"D-380","u":"http://www.thyboronport.dk/"},{"id":"thyborøn-skibs-motor-a-s","n":"Thyborøn Skibs & Motor A/S","c":"Denmark","s":"D-380","u":"http://www.3xj.dk/"},{"id":"thyborøn-trawldoor-a-s","n":"Thyborøn Trawldoor A/S","c":"Denmark","s":"D-380","u":"http://thyboron-trawldoor.dk/"},{"id":"trainor","n":"Trainor","c":"Norway","s":"C-028","u":"https://www.trainor.no/no/"},{"id":"treffpunkt-trøndelag","n":"Treffpunkt Trøndelag","c":"Norway","s":"F-540","u":"https://www.trondelagfylke.no/"},{"id":"triangel-business-solutions","n":"Triangel Business Solutions","c":"Norway","s":"A-110","u":"https://www.triangel.no/"},{"id":"triark-systems-as","n":"Triark Systems AS","c":"Norway","s":"A-110","u":"https://www.triark.no/"},{"id":"troms-fryseterminal-as","n":"Troms Fryseterminal AS","c":"Norway","s":"F-515","u":""},{"id":"troms-fylkeskommune","n":"Troms Fylkeskommune","c":"Norway","s":"F-515","u":""},{"id":"tromsø-havn-kf","n":"Tromsø Havn KF","c":"Norway","s":"F-515","u":"http://www.tromso.havn.no/"},{"id":"tromsø-mekaniske-as","n":"Tromsø Mekaniske AS","c":"Norway","s":"F-515","u":"http://www.tromsomekaniske.no/"},{"id":"tromsøterminalen-as","n":"Tromsøterminalen AS","c":"Norway","s":"F-515","u":""},{"id":"trondheim-engineering-as","n":"Trondheim Engineering AS","c":"Norway","s":"D-307","u":"http://treng.no/"},{"id":"trondheim-havn","n":"Trondheim Havn","c":"Norway","s":"F-578","u":"https://trondheimhavn.no/"},{"id":"trøndelag-høyere-yrkesfagskole","n":"Trøndelag høyere yrkesfagskole","c":"Norway","s":"F-540","u":""},{"id":"uit-norges-arktiske-universitet","n":"UiT-Norges Arktiske universitet","c":"Norway","s":"E-431","u":"http://www.uit.no/"},{"id":"ulmatec","n":"Ulmatec","c":"Norway","s":"A-116","u":"https://www.ulmatec.no/"},{"id":"ulstein-betongindustri","n":"Ulstein Betongindustri","c":"Norway","s":"A-110","u":"https://www.ulsteinbetong.no/"},{"id":"ulvesund-elektro-as","n":"Ulvesund Elektro AS","c":"Norway","s":"D-370","u":"http://www.ulvesund-elektro.no/"},{"id":"unisystem-ab","n":"Unisystem AB","c":"Sweden","s":"A-193","u":"https://unisystem.se/"},{"id":"uno-x-smøreolje-as","n":"UNO-X Smøreolje AS","c":"Norway","s":"B-214","u":"https://olje.unox.no/"},{"id":"vaagland-båtbyggeri","n":"Vaagland Båtbyggeri","c":"Norway","s":"D-343","u":"http://www.vaagland.no/"},{"id":"vard-group-as","n":"Vard Group AS","c":"Norway","s":"D-336","u":"http://www.vard.com/"},{"id":"varp","n":"Varp","c":"Norway","s":"F-540","u":""},{"id":"vegsund-slip-as","n":"VEGSUND SLIP AS","c":"Norway","s":"D-366","u":"http://www.vegsund-slip.no/"},{"id":"venotek-as","n":"Venotek AS","c":"Norway","s":"A-176","u":"http://www.venotek.no/"},{"id":"vestland-fylkeskommune","n":"Vestland Fylkeskommune","c":"Norway","s":"A-118","u":"https://www.vestlandfylke.no/"},{"id":"vestnes-ocean-as","n":"Vestnes Ocean AS","c":"Norway","s":"D-370","u":"http://www.vestnesnorway.com/"},{"id":"vicusdt","n":"VICUSdt","c":"Spain","s":"A-192","u":"https://vicusdt.com/en/"},{"id":"videregående-skoler-i-nordland","n":"Videregående skoler i Nordland","c":"Norway","s":"D-356","u":""},{"id":"viknaslipen-as","n":"Viknaslipen AS","c":"Norway","s":"A-152, S-905","u":"http://viknaslipen.no/"},{"id":"vision-technology-grid-as","n":"Vision Technology Grid AS","c":"Norway","s":"A-128","u":"http://www.vtg.no/"},{"id":"vrunda-vitthal-polyfab","n":"VRUNDA VITTHAL POLYFAB","c":"India","s":"C-019","u":"http://www.vrundavitthal.com/"},{"id":"v-nin","n":"Vónin","c":"Norway","s":"D-320","u":"http://voninrefa.no/"},{"id":"wago-norge","n":"Wago Norge","c":"Norway","s":"D-323","u":"http://www.wago.no/"},{"id":"westcon-yards","n":"Westcon Yards","c":"Norway","s":"D-343","u":"http://www.westcon.no/"},{"id":"westing-as","n":"Westing AS","c":"Norway","s":"D-348","u":"https://westing.no/"},{"id":"wintersteiger-dry-protect-gmbh","n":"WINTERSTEIGER Dry & Protect GmbH","c":"Norway","s":"D-349","u":"https://www.wintersteiger.com/dry-protect/"},{"id":"w-rtsil-norway-as","n":"Wärtsilä Norway AS","c":"Norway","s":"A-178","u":""},{"id":"yanmar","n":"Yanmar","c":"Netherlands","s":"B-202","u":"https://www.yanmar.com/eu/marine/"},{"id":"ytre-namdal-videregående-skole","n":"Ytre Namdal videregående skole","c":"Norway","s":"F-540","u":""},{"id":"zamakona-shipyards","n":"Zamakona Shipyards","c":"Spain","s":"A-141","u":""},{"id":"zeabuz","n":"Zeabuz","c":"Norway","s":"Skansen at sea, S-904, F-545","u":"http://www.zeabuz.com/"},{"id":"zenitel-norway-as","n":"Zenitel Norway AS","c":"Norway","s":"F-574","u":"http://www.zenitel.com/"},{"id":"zeppelin-power-systems-norway-as","n":"Zeppelin Power Systems Norway AS","c":"Norway","s":"B-203","u":"https://www.zeppelin-cat.no/no/power"},{"id":"zewo-chemicals-as","n":"Zewo Chemicals AS","c":"Norway","s":"D-348","u":"https://www.zewo.no/"},{"id":"zf-danmark-aps","n":"ZF Danmark ApS","c":"Denmark","s":"B-206","u":"http://www.zf.com/"},{"id":"åkp-as","n":"ÅKP AS","c":"Norway","s":"A-110","u":"https://www.aakp.no/"},{"id":"nnereds-svets-ab","n":"Önnereds Svets AB","c":"Sweden","s":"D-327","u":"https://onnereds.se/"},{"id":"øglænd-system-as","n":"ØGLÆND SYSTEM AS","c":"Norway","s":"A-143","u":"http://www.xn--s-4ga.no/"},{"id":"øwre-johnsen-as","n":"Øwre-Johnsen AS","c":"Norway","s":"D-380","u":"http://www.owre-johnsen.no/"},{"id":"øyangen-as","n":"Øyangen AS","c":"Norway","s":"F-527","u":"http://www.oyangen.no/"}];
+
+/* ===== HALLDATA (Nor-Fishings hallplaner, juni 2026) ===== */
+const R=(a,l)=>l.split(' ').map(n=>a+'-'+n);
+const HALLS={
+ A:{name:'Hall A',pdf:'https://nor-fishing.no/wp-content/uploads/2026/06/Hall-A.pdf',
+    plan:R('A','100 101 102 103 104 105 106 107 108 109 110 113 115 116 117 118 119 120 122 124 126 127 128 129 130 132 133 134 135 136 137 140 141 142 143 144 145 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 168 169 170 171 172 173 174 175 176 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199'),
+    box:{x:130,y:20,w:110,h:82}},
+ B:{name:'Hall B',pdf:'https://nor-fishing.no/wp-content/uploads/2026/06/Hall-B.pdf',
+    plan:R('B','200 201 202 203 204 205 206 207 208 211 212 213 214 216 218 219 220 221 222 223 224 226 230 232'),
+    box:{x:20,y:112,w:100,h:70}},
+ C:{name:'Hall C',pdf:'https://nor-fishing.no/wp-content/uploads/2026/06/Hall-C.pdf',
+    plan:R('C','001 002 003 004 007 008 009 011 012 013 015 017 018 019 020 021 022 023 024 025 026 027 028 029 030'),
+    box:{x:20,y:20,w:100,h:82}},
+ D:{name:'Hall D',pdf:'https://nor-fishing.no/wp-content/uploads/2026/06/Hall-D.pdf',
+    plan:R('D','300 301 302 304 305 306 307 308 309 313 314 315 316 317 318 319 320 321 322 323 324 325 326 327 328 329 332 333 334 335 336 337 338 339 340 341 343 347 348 349 350 351 352 356 360 361 362 363 364 366 370 374 375 376 377 380 381 382 386 387 389 390 391 393'),
+    box:{x:250,y:20,w:120,h:82}},
+ E:{name:'Hall E',pdf:'https://nor-fishing.no/wp-content/uploads/2026/06/Hall-E.pdf',
+    plan:R('E','410 411 412 413 414 415 416 417 418 419 421 425'),
+    box:{x:130,y:112,w:110,h:70}},
+ F:{name:'Hall F',pdf:'https://nor-fishing.no/wp-content/uploads/2026/06/Hall-F.pdf',
+    plan:R('F','506 507 508 509 510 512 515 516 517 518 520 521 522 523 524 525 526 527 528 529 530 531 536 538 540 545 547 548 549 551 552 553 554 555 556 557 558 559 560 561 562 563 564 565 570 571 572 573 574 575 576 577 578 579 580 581 582 583 584 585'),
+    box:{x:250,y:112,w:120,h:70}},
+ U:{name:'Uteområde',pdf:'https://nor-fishing.no/wp-content/uploads/2026/06/Outdoors.pdf',
+    plan:R('U','800 802 804 805 806 810'),
+    box:{x:20,y:192,w:150,h:52}},
+ S:{name:'Skansen / sjøareal',pdf:'https://nor-fishing.no/wp-content/uploads/2026/06/Skansen.pdf',
+    plan:R('S','900 901 902 904 905').concat(['Skansen at sea']),
+    box:{x:180,y:192,w:100,h:52}},
+ BR:{name:'Brattørabassenget',pdf:'https://nor-fishing.no/messen/messeomradet/',
+    plan:['Brattørabassenget'],
+    box:{x:290,y:192,w:80,h:52}}
+};
+const HALLKEYS=Object.keys(HALLS);
+
+
+/* ===== LAGRING: window.storage (Claude) → localStorage → IndexedDB ===== */
+const STORE=(function(){
+  let mode='minne', memv={}, idb=null;
+  const hasWS = (typeof window!=='undefined' && window.storage && typeof window.storage.get==='function');
+  let hasLS=false;
+  try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); hasLS=true; }catch(e){ hasLS=false; }
+  function openIdb(){
+    return new Promise(res=>{
+      try{
+        const rq=indexedDB.open('nf2026',1);
+        rq.onupgradeneeded=()=>rq.result.createObjectStore('kv');
+        rq.onsuccess=()=>res(rq.result);
+        rq.onerror=()=>res(null);
+      }catch(e){res(null);}
+    });
+  }
+  return {
+    get mode(){return mode},
+    async init(){
+      if(hasWS){mode='Claude-konto';return mode;}
+      if(hasLS){mode='localStorage';}
+      idb=await openIdb();
+      if(!hasLS&&idb)mode='IndexedDB';
+      else if(!hasLS&&!idb)mode='minne';
+      return mode;
+    },
+    async get(k){
+      if(hasWS){try{const r=await window.storage.get(k);return r&&r.value||null;}catch(e){return null;}}
+      if(hasLS){const v=localStorage.getItem(k);if(v)return v;}
+      if(idb)return await new Promise(res=>{try{const t=idb.transaction('kv','readonly').objectStore('kv').get(k);
+        t.onsuccess=()=>res(t.result||null);t.onerror=()=>res(null);}catch(e){res(null);}});
+      return memv[k]||null;
+    },
+    async set(k,v){
+      let ok=false;
+      if(hasWS){try{await window.storage.set(k,v);ok=true;}catch(e){}}
+      if(hasLS){try{localStorage.setItem(k,v);ok=true;}catch(e){}}
+      if(idb){try{await new Promise((res,rej)=>{const t=idb.transaction('kv','readwrite').objectStore('kv').put(v,k);
+        t.onsuccess=res;t.onerror=rej;});ok=true;}catch(e){}}
+      memv[k]=v;
+      return ok;
+    }
+  };
+})();
+
+/* ===== STATE ===== */
+const KEY='nf2026-cermaq-v3';
+let exhibitors=[], meta={}, view='all', showFavOnly=false, foreignOnly=false, openId=null;
+let mapHall=null, selStand=null, pendingPulse=null, hallIndex={};
+
+const fromSeed=()=>SEED.map(s=>({id:s.id,name:s.n,country:s.c,stand:s.s,web:s.u||''}));
+
+async function load(){
+  await STORE.init();
+  let raw=null;
+  try{ raw=await STORE.get(KEY); }catch(e){}
+  if(!raw){ try{ raw=await STORE.get('nf2026-cermaq-v2'); }catch(e){} }
+  if(raw){ try{const s=JSON.parse(raw);exhibitors=s.exhibitors||[];meta=s.meta||{};}catch(e){} }
+  if(!exhibitors.length) exhibitors=fromSeed();
+  else{
+    const seed=new Map(fromSeed().map(x=>[x.id,x]));
+    exhibitors.forEach(x=>{const s=seed.get(x.id);if(s){if(!x.web)x.web=s.web;if(!x.country)x.country=s.country;if(!x.stand)x.stand=s.stand;}});
+    fromSeed().forEach(s=>{if(!exhibitors.some(x=>x.id===s.id))exhibitors.push(s);});
+  }
+  buildIndex();
+}
+let saveT=null, lastSaved=null;
+function save(){clearTimeout(saveT);saveT=setTimeout(async()=>{
+  const ok=await STORE.set(KEY,JSON.stringify({exhibitors,meta}));
+  lastSaved=new Date();
+  const el=document.getElementById('storeStatus'); if(el)storeStatus();
+  if(!ok)toast('⚠ Kunne ikke lagre — ta sikkerhetskopi (Data-fanen)');
+},350);}
+function storeStatus(){
+  const el=document.getElementById('storeStatus'); if(!el)return;
+  const good=STORE.mode!=='minne';
+  const t=lastSaved?lastSaved.toLocaleTimeString('nb-NO',{hour:'2-digit',minute:'2-digit'}):'ingen endringer ennå';
+  el.innerHTML=(good?'✔ ':'⚠ ')+'Lagring: <b>'+STORE.mode+'</b> · sist lagret: '+t
+    +(good?'':' — data forsvinner når fanen lukkes. Bruk sikkerhetskopi.');
+  el.style.color=good?'var(--aqua-dark)':'var(--coral)';
+}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2300);}
+
+/* ===== HELPERS ===== */
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9æøå]+/g,'-').replace(/^-|-$/g,'');
+const esc=s=>(s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function m(id){if(!meta[id])meta[id]={fav:false,note:'',contact:{name:'',role:'',email:'',phone:''}};return meta[id];}
+const hasNote=x=>{const d=meta[x.id];if(!d)return false;const c=d.contact||{};return !!(d.note||c.name||c.role||c.email||c.phone);};
+function normStand(v){
+  v=(v||'').trim();
+  const mt=v.match(/^([A-Za-zÆØÅæøå])\s*-?\s*0*(\d+)$/);
+  if(mt){const L=mt[1].toUpperCase();return L+'-'+(L==='C'?mt[2].padStart(3,'0'):String(+mt[2]));}
+  const low=v.toLowerCase();
+  if(low.startsWith('skansen'))return 'Skansen at sea';
+  if(low.indexOf('brattør')>-1||low.indexOf('brattora')>-1)return 'Brattørabassenget';
+  return v;
+}
+const standsOf=x=>(x.stand||'').split(/[,;\/]+/).map(normStand).filter(Boolean);
+function hallOf(stand){
+  const s=normStand(stand);
+  if(s==='Brattørabassenget')return 'BR';
+  if(s==='Skansen at sea')return 'S';
+  const mt=s.match(/^([A-Z])-/);
+  return mt&&HALLS[mt[1]]?mt[1]:null;
+}
+function hallsOf(x){return [...new Set(standsOf(x).map(hallOf).filter(Boolean))];}
+function buildIndex(){
+  hallIndex={};
+  HALLKEYS.forEach(k=>hallIndex[k]={stands:[...HALLS[k].plan],occ:{}});
+  exhibitors.forEach(x=>standsOf(x).forEach(s=>{
+    const h=hallOf(s);if(!h)return;
+    const H=hallIndex[h];
+    if(H.stands.indexOf(s)<0)H.stands.push(s);
+    (H.occ[s]=H.occ[s]||[]).push(x);
+  }));
+  HALLKEYS.forEach(k=>hallIndex[k].stands.sort((a,b)=>{
+    const na=+(a.split('-')[1]),nb=+(b.split('-')[1]);
+    if(isNaN(na)||isNaN(nb))return String(a).localeCompare(String(b),'nb');
+    return na-nb;}));
+}
+const occupants=(h,s)=>(hallIndex[h]&&hallIndex[h].occ[s])||[];
+function hallStats(k){
+  const H=hallIndex[k];let taken=0,fav=0,firms=0;
+  H.stands.forEach(s=>{const o=occupants(k,s);if(o.length){taken++;firms+=o.length;}
+    if(o.some(x=>(meta[x.id]||{}).fav))fav++;});
+  return {total:H.stands.length,taken,fav,firms};
+}
+const domain=u=>{try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return (u||'').replace(/^https?:\/\/(www\.)?/,'').split('/')[0];}};
+
+/* ===== LIST ===== */
+function filtered(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  const c=document.getElementById('fCountry').value,h=document.getElementById('fHall').value,sort=document.getElementById('fSort').value;
+  let r=exhibitors.filter(x=>{
+    const d=meta[x.id]||{},ct=d.contact||{};
+    if(view==='fav'&&!d.fav)return false;
+    if(view==='notes'&&!hasNote(x))return false;
+    if(showFavOnly&&!d.fav)return false;
+    if(foreignOnly&&/^norway$|^norge$/i.test(x.country||''))return false;
+    if(c&&x.country!==c)return false;
+    if(h&&hallsOf(x).indexOf(h)<0)return false;
+    if(q&&![x.name,x.country,x.stand,x.web,d.note,ct.name,ct.role,ct.email,ct.phone].join(' ').toLowerCase().includes(q))return false;
+    return true;
+  });
+  const cmp=(a,b)=>String(a).localeCompare(String(b),'nb');
+  r.sort((a,b)=>sort==='stand'?cmp(a.stand||'zzz',b.stand||'zzz')
+    :sort==='country'?(cmp(a.country||'zzz',b.country||'zzz')||cmp(a.name,b.name)):cmp(a.name,b.name));
+  return r;
+}
+function card(x){
+  const d=m(x.id),ct=d.contact,open=openId===x.id,hs=hallsOf(x);
+  const first=standsOf(x)[0];
+  return '<div class="card '+(d.fav?'fav':'')+'" id="card-'+x.id+'">'
+   +'<div class="crow"><div class="cmain">'
+   +'<div class="cname">'+esc(x.name)+'</div>'
+   +'<div class="cmeta">'
+     +standsOf(x).map(s=>'<span class="stand">'+esc(s)+'</span>').join('')
+     +(hs.length?'<span>'+hs.map(k=>esc(HALLS[k].name)).join(' + ')+'</span>':'')
+     +(x.country?'<span class="flag">'+esc(x.country)+'</span>':'')
+     +(x.web?'<a class="web" href="'+esc(x.web)+'" target="_blank" rel="noopener">'+esc(domain(x.web))+' ↗</a>':'')
+   +'</div></div>'
+   +'<button class="star '+(d.fav?'on':'')+'" data-fav="'+x.id+'">'+(d.fav?'★':'☆')+'</button></div>'
+   +((!open&&d.note)?'<div class="preview">'+esc(d.note.slice(0,160))+(d.note.length>160?'…':'')+'</div>':'')
+   +'<div class="cactions">'
+     +'<button class="mini" data-open="'+x.id+'">'+(open?'Lukk':'Notat & kontakt')+'</button>'
+     +(first&&hallOf(first)?'<button class="mini acc" data-map="'+esc(first)+'">📍 Vis i kart</button>':'')
+     +((!open&&ct.name)?'<span class="badge">'+esc(ct.name)+'</span>':'')
+     +((!open&&ct.email)?'<a class="badge" href="mailto:'+esc(ct.email)+'" style="text-decoration:none">'+esc(ct.email)+'</a>':'')
+   +'</div>'
+   +(open?'<div class="form"><div class="fgrid">'
+     +'<div><label>Kontaktperson</label><input data-f="name" data-id="'+x.id+'" value="'+esc(ct.name)+'" placeholder="Navn"></div>'
+     +'<div><label>Rolle</label><input data-f="role" data-id="'+x.id+'" value="'+esc(ct.role)+'" placeholder="Tittel / rolle"></div>'
+     +'<div><label>E-post</label><input data-f="email" data-id="'+x.id+'" value="'+esc(ct.email)+'" placeholder="navn@firma.no"></div>'
+     +'<div><label>Telefon</label><input data-f="phone" data-id="'+x.id+'" value="'+esc(ct.phone)+'" placeholder="+47 …"></div>'
+     +'<div><label>Nettside</label><input data-f="web" data-id="'+x.id+'" value="'+esc(x.web||'')+'" placeholder="https://…"></div>'
+     +'<div><label>Land</label><input data-f="country" data-id="'+x.id+'" value="'+esc(x.country||'')+'" placeholder="Norway"></div>'
+   +'</div><div><label>Notat</label><textarea data-f="note" data-id="'+x.id+'" placeholder="Hva snakket vi om? Neste steg?">'+esc(d.note)+'</textarea></div>'
+   +'<div class="saved" id="sv-'+x.id+'">Lagret</div></div>':'')
+   +'</div>';
+}
+function fillSelect(el,pairs){
+  const cur=el.value,first=el.options[0].textContent;
+  el.innerHTML='<option value="">'+first+'</option>'+pairs.map(p=>'<option value="'+esc(p[0])+'">'+esc(p[1])+'</option>').join('');
+  if(pairs.some(p=>p[0]===cur))el.value=cur;
+}
+function render(){
+  const favN=exhibitors.filter(x=>(meta[x.id]||{}).fav).length,notN=exhibitors.filter(hasNote).length;
+  const countries=[...new Set(exhibitors.map(x=>x.country).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'nb'));
+  cAll.textContent=exhibitors.length;cFav.textContent=favN;cNotes.textContent=notN;
+  sTot.textContent=exhibitors.length;sCountries.textContent=countries.length;sFav.textContent=favN;sNot.textContent=notN;
+  const counts={};exhibitors.forEach(x=>{if(x.country)counts[x.country]=(counts[x.country]||0)+1;});
+  fillSelect(document.getElementById('fCountry'),countries.map(v=>[v,v+' ('+counts[v]+')']));
+  fillSelect(document.getElementById('fHall'),HALLKEYS.map(k=>[k,HALLS[k].name]));
+  const r=filtered();
+  document.getElementById('resCount').textContent=exhibitors.length?r.length+' av '+exhibitors.length+' utstillere':'';
+  const list=document.getElementById('list');
+  list.innerHTML=r.length?r.map(card).join(''):'<div class="empty">Ingen treff.</div>';
+}
+
+/* ===== MAP ===== */
+function venueSvg(){
+  const blocks=HALLKEYS.map(k=>{
+    const b=HALLS[k].box,s=hallStats(k),cx=b.x+b.w/2,cy=b.y+b.h/2,small=b.h<60;
+    return '<g class="hallblock" data-hall="'+k+'" tabindex="0">'
+      +'<rect x="'+b.x+'" y="'+b.y+'" width="'+b.w+'" height="'+b.h+'" rx="4"></rect>'
+      +'<text class="hl" x="'+cx+'" y="'+(cy-(small?2:4))+'" text-anchor="middle" style="font-size:'+(small?13:18)+'px">'+(k==='BR'?'BR':k)+'</text>'
+      +'<text class="hn" x="'+cx+'" y="'+(cy+(small?9:9))+'" text-anchor="middle">'+esc(HALLS[k].name.toUpperCase())+'</text>'
+      +'<text class="hc" x="'+cx+'" y="'+(cy+(small?19:20))+'" text-anchor="middle">'+s.firms+' firma · '+s.taken+'/'+s.total+' stands</text>'
+      +(s.fav?'<circle class="favdot" cx="'+(b.x+b.w-13)+'" cy="'+(b.y+13)+'" r="9"></circle>'
+        +'<text class="favtxt" x="'+(b.x+b.w-13)+'" y="'+(b.y+16)+'" text-anchor="middle">'+s.fav+'</text>':'')
+      +'</g>';
+  }).join('');
+  return '<svg class="venue" viewBox="0 0 390 262" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Skjematisk halloversikt">'
+    +'<rect class="outline" x="10" y="10" width="370" height="182" rx="6"></rect>'
+    +'<text class="caption" x="14" y="205">TRONDHEIM SPEKTRUM · SKJEMATISK</text>'+blocks+'</svg>';
+}
+function hallView(k){
+  const H=HALLS[k],s=hallStats(k),plan=H.plan;
+  const sq=hallIndex[k].stands.map((sid,i)=>{
+    const occ=occupants(k,sid),fav=occ.some(x=>(meta[x.id]||{}).fav);
+    const cls=['sq'];if(occ.length)cls.push('taken');if(fav)cls.push('fav');
+    if(plan.indexOf(sid)<0)cls.push('extra');if(selStand===sid)cls.push('sel');
+    return '<button class="'+cls.join(' ')+'" data-stand="'+esc(sid)+'" id="sq-'+esc(sid).replace(/\s/g,'_')+'" style="animation-delay:'+Math.min(i*7,420)+'ms">'
+      +esc(sid)+(occ.length>1?'<span class="cnt">'+occ.length+'</span>':'')
+      +(occ.length?'<span class="nm">'+esc(occ[0].name)+'</span>':'')+'</button>';
+  }).join('');
+  return '<div class="hallhead"><h2>'+esc(H.name)+'</h2><span class="sub">'+s.firms+' firma · '+s.taken+' av '+s.total+' stands besatt · '+s.fav+' med favoritt</span></div>'
+    +'<div class="legend">'
+      +'<span><i style="background:var(--aqua)"></i>Utstiller</span>'
+      +'<span><i style="background:var(--coral)"></i>Favoritt</span>'
+      +'<span><i style="background:#fff;border:1.5px solid var(--scale-grey)"></i>Ledig / ukjent</span>'
+      +'<span><i style="background:#fff;border:1.5px dashed var(--scale-grey)"></i>Ikke på hallplanen</span>'
+      +'<a href="'+H.pdf+'" target="_blank" rel="noopener">Offisiell hallplan ↗</a>'
+    +'</div><div class="floor"><div class="grid">'+sq+'</div></div><div id="standinfo"></div>';
+}
+function standInfo(k,sid){
+  const occ=occupants(k,sid);
+  if(!occ.length)return '<div class="standinfo"><div class="cname">'+esc(sid)+'</div><div class="cmeta"><span>'+esc(HALLS[k].name)+'</span><span>Ingen utstiller registrert her</span></div></div>';
+  return '<div class="standinfo">'+occ.map(x=>{
+    const d=m(x.id),ct=d.contact;
+    return '<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px">'
+      +'<div style="flex:1;min-width:0"><div class="cname">'+esc(x.name)+'</div>'
+      +'<div class="cmeta"><span class="stand">'+esc(sid)+'</span><span>'+esc(HALLS[k].name)+'</span>'
+        +(x.country?'<span>'+esc(x.country)+'</span>':'')
+        +(x.web?'<a class="web" href="'+esc(x.web)+'" target="_blank" rel="noopener">'+esc(domain(x.web))+' ↗</a>':'')+'</div>'
+      +(d.note?'<div class="preview">'+esc(d.note.slice(0,180))+(d.note.length>180?'…':'')+'</div>':'')
+      +'<div class="cactions"><button class="mini acc" data-goto="'+x.id+'">Åpne notat &amp; kontakt</button>'
+        +(ct.email?'<a class="badge" href="mailto:'+esc(ct.email)+'" style="text-decoration:none">'+esc(ct.email)+'</a>':'')
+        +(ct.phone?'<a class="badge" href="tel:'+esc(ct.phone)+'" style="text-decoration:none">'+esc(ct.phone)+'</a>':'')
+      +'</div></div>'
+      +'<button class="star '+(d.fav?'on':'')+'" data-fav="'+x.id+'">'+(d.fav?'★':'☆')+'</button></div>';
+  }).join('')+'</div>';
+}
+function paintMap(anim){
+  const pane=document.getElementById('pane'),crumb=document.getElementById('crumb');
+  const draw=()=>{
+    if(mapHall){
+      crumb.innerHTML='<button data-back="1">← Halloversikt</button><span>/</span><span>'+esc(HALLS[mapHall].name)+'</span>';
+      pane.innerHTML=hallView(mapHall);
+      if(selStand)document.getElementById('standinfo').innerHTML=standInfo(mapHall,selStand);
+      if(pendingPulse){
+        const el=document.getElementById('sq-'+pendingPulse.replace(/\s/g,'_'));pendingPulse=null;
+        if(el){el.classList.add('pulse');setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),140);}
+      }
+    }else{crumb.innerHTML='<span>Halloversikt — trykk på en hall</span>';pane.innerHTML=venueSvg();}
+    pane.classList.remove('out','out-back');
+  };
+  if(anim){pane.classList.add(anim);setTimeout(draw,220);}else draw();
+}
+function goStand(v,fromList){
+  const s=normStand(v),h=hallOf(s);
+  if(!h){toast('Ukjent stand');return;}
+  const exact=hallIndex[h].stands.indexOf(s)>-1?s:hallIndex[h].stands.find(t=>t===s);
+  mapHall=h;selStand=exact||s;pendingPulse=selStand;
+  if(fromList){document.querySelector('[data-view=map]').click();}else{paintMap('out');}
+}
+
+/* ===== TABS ===== */
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(o=>o.classList.remove('on'));t.classList.add('on');
+  const v=t.dataset.view;
+  viewList.classList.toggle('hide',v==='data'||v==='map');
+  viewData.classList.toggle('hide',v!=='data');
+  viewMap.classList.toggle('hide',v!=='map');
+  if(v==='map')paintMap();else if(v!=='data'){view=v;render();}
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* ===== EVENTS ===== */
+['q','fCountry','fHall','fSort'].forEach(id=>document.getElementById(id).addEventListener(id==='q'?'input':'change',render));
+document.getElementById('fFav').onclick=e=>{showFavOnly=!showFavOnly;e.target.classList.toggle('on',showFavOnly);render();};
+document.getElementById('fNor').onclick=e=>{foreignOnly=!foreignOnly;e.target.classList.toggle('on',foreignOnly);render();};
+document.getElementById('fReset').onclick=()=>{q.value='';fCountry.value='';fHall.value='';fSort.value='name';
+  showFavOnly=false;foreignOnly=false;fFav.classList.remove('on');fNor.classList.remove('on');render();};
+
+document.getElementById('list').addEventListener('click',e=>{
+  const f=e.target.closest('[data-fav]'),o=e.target.closest('[data-open]'),mp=e.target.closest('[data-map]');
+  if(f){const d=m(f.dataset.fav);d.fav=!d.fav;save();render();}
+  else if(o){openId=openId===o.dataset.open?null:o.dataset.open;render();}
+  else if(mp){goStand(mp.dataset.map,true);}
+});
+document.getElementById('list').addEventListener('input',e=>{
+  const el=e.target;if(!el.dataset.f)return;
+  const id=el.dataset.id,fld=el.dataset.f,x=exhibitors.find(y=>y.id===id),d=m(id);
+  if(fld==='note')d.note=el.value;
+  else if(fld==='web'||fld==='country'){if(x)x[fld]=el.value;}
+  else d.contact[fld]=el.value;
+  save();
+  const s=document.getElementById('sv-'+id);
+  if(s){s.classList.add('on');clearTimeout(s._t);s._t=setTimeout(()=>s.classList.remove('on'),1200);}
+});
+
+document.getElementById('viewMap').addEventListener('click',e=>{
+  const hb=e.target.closest('[data-hall]'),bk=e.target.closest('[data-back]'),
+        sq=e.target.closest('[data-stand]'),f=e.target.closest('[data-fav]'),gt=e.target.closest('[data-goto]');
+  if(f){const d=m(f.dataset.fav);d.fav=!d.fav;save();paintMap();render();}
+  else if(gt){openId=gt.dataset.goto;view='all';q.value='';
+    document.querySelector('[data-view=all]').click();
+    setTimeout(()=>{const c=document.getElementById('card-'+openId);if(c)c.scrollIntoView({behavior:'smooth',block:'center'});},260);}
+  else if(hb){mapHall=hb.dataset.hall;selStand=null;paintMap('out');}
+  else if(bk){mapHall=null;selStand=null;paintMap('out-back');}
+  else if(sq){selStand=sq.dataset.stand;
+    document.querySelectorAll('.sq.sel').forEach(n=>n.classList.remove('sel'));sq.classList.add('sel');
+    document.getElementById('standinfo').innerHTML=standInfo(mapHall,selStand);}
+});
+document.getElementById('viewMap').addEventListener('keydown',e=>{
+  const hb=e.target.closest('[data-hall]');
+  if(hb&&(e.key==='Enter'||e.key===' ')){e.preventDefault();mapHall=hb.dataset.hall;selStand=null;paintMap('out');}
+});
+document.getElementById('mgo').onclick=()=>{const v=document.getElementById('mq').value.trim();if(v)goStand(v,false);};
+document.getElementById('mq').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('mgo').click();});
+
+/* ===== IMPORT / EXPORT ===== */
+function parse(text){
+  const out=[],seen=new Set();
+  text.split(/\r?\n/).forEach(line=>{
+    if(!line.trim())return;
+    let p=line.includes('\t')?line.split('\t'):(line.includes(';')?line.split(';'):line.split(','));
+    p=p.map(v=>v.replace(/^\s*"?|"?\s*$/g,'').trim());
+    if(!p[0])return;
+    if(/^(utstiller|exhibitor|navn|name|company)$/i.test(p[0]))return;
+    const id=slug(p[0]);if(seen.has(id))return;seen.add(id);
+    let web=p.slice(1).find(v=>/^(https?:\/\/|www\.)/i.test(v))||'';
+    let stand=p[2]||'', country=p[1]||'';
+    if(/^(https?:\/\/|www\.)/i.test(country))country='';
+    if(/^(https?:\/\/|www\.)/i.test(stand))stand='';
+    out.push({id,name:p[0],country,stand,web});
+  });
+  return out;
+}
+function doImport(text){
+  const rows=parse(text);
+  if(!rows.length){importMsg.textContent='Fant ingen rader — sjekk formatet.';return;}
+  const known=new Map(exhibitors.map(x=>[x.id,x]));let added=0,web=0;
+  rows.forEach(r=>{
+    const cur=known.get(r.id);
+    if(cur){cur.country=r.country||cur.country;cur.stand=r.stand||cur.stand;if(r.web){cur.web=r.web;web++;}}
+    else{exhibitors.push(r);added++;if(r.web)web++;}
+  });
+  buildIndex();save();render();
+  importMsg.textContent=rows.length+' rader · '+added+' nye · '+web+' med nettside';
+  toast('Importerte '+rows.length+' utstillere');
+}
+document.getElementById('doImport').onclick=()=>doImport(document.getElementById('paste').value);
+document.getElementById('csv').onchange=e=>{const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();rd.onload=()=>{document.getElementById('paste').value=rd.result;doImport(rd.result);};rd.readAsText(f);};
+document.getElementById('reseed').onclick=()=>{
+  const seed=fromSeed(),known=new Map(exhibitors.map(x=>[x.id,x]));let added=0;
+  seed.forEach(s=>{const c=known.get(s.id);
+    if(c){c.country=s.country;c.stand=s.stand;c.web=s.web;}else{exhibitors.push(s);added++;}});
+  buildIndex();save();render();toast('Oppdatert · '+added+' nye firma');
+};
+
+const cell=v=>{v=(v==null?'':String(v));return /[",;\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;};
+function toCsv(rows){
+  const head=['Utstiller','Land','Stand','Hall','Nettside','Favoritt','Kontaktperson','Rolle','E-post','Telefon','Notat'];
+  return '\uFEFF'+[head.join(';'),...rows.map(x=>{const d=m(x.id),c=d.contact;
+    return [x.name,x.country,x.stand,hallsOf(x).map(k=>HALLS[k].name).join(' + '),x.web,
+      d.fav?'Ja':'',c.name,c.role,c.email,c.phone,d.note].map(cell).join(';');})].join('\n');
+}
+function download(n,c,t){const b=new Blob([c],{type:t}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;a.click();URL.revokeObjectURL(u);}
+document.getElementById('expFav').onclick=()=>{const r=exhibitors.filter(x=>(meta[x.id]||{}).fav);
+  if(!r.length)return toast('Ingen favoritter ennå');download('nor-fishing-2026-favoritter.csv',toCsv(r),'text/csv');};
+document.getElementById('expAll').onclick=()=>download('nor-fishing-2026-utstillere.csv',toCsv(exhibitors),'text/csv');
+document.getElementById('expJson').onclick=()=>download('nor-fishing-2026-backup.json',JSON.stringify({exhibitors,meta},null,2),'application/json');
+document.getElementById('clrAll').onclick=()=>{if(confirm('Slette alle notater, kontakter og favoritter?')){meta={};save();render();paintMap();}};
+document.getElementById('pdflinks').innerHTML=HALLKEYS.map(k=>'<a class="btn2" style="text-decoration:none" target="_blank" rel="noopener" href="'+HALLS[k].pdf+'">'+esc(HALLS[k].name)+' ↗</a>').join('');
+document.getElementById('restore').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const s=JSON.parse(rd.result);
+      if(!s||!s.meta)throw 0;
+      let n=0;
+      Object.keys(s.meta).forEach(id=>{meta[id]=s.meta[id];n++;});
+      if(Array.isArray(s.exhibitors))s.exhibitors.forEach(r=>{
+        const c=exhibitors.find(x=>x.id===r.id);
+        if(c){c.web=c.web||r.web;c.country=c.country||r.country;c.stand=r.stand||c.stand;}
+        else exhibitors.push(r);
+      });
+      buildIndex();save();render();
+      toast('Gjenopprettet '+n+' oppføringer');
+    }catch(err){toast('Ugyldig sikkerhetskopi');}
+  };
+  rd.readAsText(f);
+};
+document.getElementById('seedCount').textContent=SEED.length;
+
+load().then(()=>{render();storeStatus();});
+</script>
+</body>
+</html>
